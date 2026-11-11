@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { validarNovaSenha } from './MeuPerfil.jsx';
+import { validarNovaSenha } from './validacaoSenha.js';
 
 describe('validarNovaSenha', () => {
   it('aceita senha forte e confirmada', () => {

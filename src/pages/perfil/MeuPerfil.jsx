@@ -10,17 +10,7 @@ import { iniciais } from '../../data/usuarios.js';
 import { salvarUsuario } from '../../services/usuariosService.js';
 import { mascararTelefone } from '../../utils/mascaras.js';
 import { telefoneValido } from '../../utils/validacao.js';
-
-/** Regras da nova senha. Exportada para os testes. */
-export function validarNovaSenha({ atual, nova, confirmacao }) {
-  const erros = {};
-  if (!atual) erros.atual = 'Informe a senha atual.';
-  if (nova.length < 8) erros.nova = 'Use pelo menos 8 caracteres.';
-  else if (!/\d/.test(nova) || !/[A-Za-z]/.test(nova)) erros.nova = 'Misture letras e números.';
-  else if (nova === atual) erros.nova = 'A nova senha deve ser diferente da atual.';
-  if (confirmacao !== nova) erros.confirmacao = 'As senhas não conferem.';
-  return erros;
-}
+import { validarNovaSenha } from './validacaoSenha.js';
 
 export default function MeuPerfil() {
   useMigalhas([{ rotulo: 'Sistema' }, { rotulo: 'Meu perfil' }]);
