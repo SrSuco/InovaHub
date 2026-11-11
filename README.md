@@ -11,7 +11,7 @@
 </p>
 
 <p align="center">
-  <img alt="Versão" src="https://img.shields.io/badge/vers%C3%A3o-0.3.0-AB218E" />
+  <img alt="Versão" src="https://img.shields.io/badge/vers%C3%A3o-0.4.0-AB218E" />
   <img alt="Etapa" src="https://img.shields.io/badge/etapa-CDI--2-00703C" />
   <img alt="React" src="https://img.shields.io/badge/React-18-61DAFB" />
   <img alt="Tailwind" src="https://img.shields.io/badge/Tailwind%20%2B%20DaisyUI-3%20%2F%204-38BDF8" />
@@ -39,7 +39,7 @@
 
 O **InovaHub** é um sistema de **CRM** (*Customer Relationship Management*) feito sob medida para o **InovaParq**, o parque de inovação da **UNIVILLE**, em Joinville/SC. Ele reúne em um só lugar as empresas residentes, incubadas, parceiras e prospects, os contatos e as interações da equipe do parque, com indicadores para apoiar decisões.
 
-Esta é a etapa **CDI-2**: a implementação do front-end a partir dos protótipos de tela. Os dados ficam em uma camada de serviço simulada no navegador, pronta para ser trocada pela API quando o back-end for definido. O escopo completo está em [`docs/ESCOPO.md`](docs/ESCOPO.md).
+Esta é a etapa **CDI-2**: a implementação do front-end a partir dos protótipos de tela (feitos no CDI-1). Os dados ficam em uma camada de serviço simulada no navegador, pronta para ser trocada pela API quando o back-end for definido. O escopo completo está em [`docs/ESCOPO.md`](docs/ESCOPO.md).
 
 ## Telas implementadas
 
@@ -47,17 +47,33 @@ Esta é a etapa **CDI-2**: a implementação do front-end a partir dos protótip
 |---|---|---|
 | Login (e login com erro) | `/login` | ✅ |
 | Dashboard (indicadores e gráficos) | `/` | ✅ |
-| Erro 404 | qualquer rota inexistente | ✅ |
-| Acesso não autorizado (403) | `/acesso-negado` | ✅ |
 | Listagem de empresas (filtros, ordenação, EmptyView) | `/empresas` | ✅ |
 | Adicionar empresa (e com erros) | `/empresas/nova` | ✅ |
 | Editar empresa (e com erros) | `/empresas/:id/editar` | ✅ |
 | Desativar e reativar empresa | ações da listagem e da ficha | ✅ |
 | Ficha da empresa | `/empresas/:id` | ✅ |
-| Usuários e permissões | `/usuarios`, `/permissoes` | ⚪ |
-| Relatórios, Configurações e Meu perfil | `/relatorios`, `/configuracoes`, `/perfil` | ⚪ |
+| Usuários, novo e editar usuário | `/usuarios`, `/usuarios/novo`, `/usuarios/:id/editar` | ✅ |
+| Permissões por perfil | `/permissoes` | ✅ |
+| Relatórios | `/relatorios` | ✅ |
+| Configurações | `/configuracoes` | ✅ |
+| Meu perfil | `/perfil` | ✅ |
+| Erro 404 | qualquer rota inexistente | ✅ |
+| Acesso não autorizado (403) | `/acesso-negado` | ✅ |
 
 Legenda: ✅ pronta · 🟡 em andamento · ⚪ a fazer
+
+### Capturas
+
+| | |
+|---|---|
+| ![Login](docs/telas/01-login.png) Login | ![Login com erro](docs/telas/02-login-erro.png) Login com erro |
+| ![Dashboard](docs/telas/03-dashboard.png) Dashboard | ![Empresas](docs/telas/04-empresas.png) Listagem de empresas |
+| ![Sem resultado](docs/telas/05-empresas-sem-resultado.png) Busca sem resultado | ![EmptyView](docs/telas/06-empresas-vazio.png) Nenhuma empresa cadastrada (EmptyView) |
+| ![Nova empresa](docs/telas/07-empresa-nova.png) Adicionar empresa | ![Nova empresa com erros](docs/telas/08-empresa-nova-erros.png) Adicionar empresa com erros |
+| ![Editar empresa](docs/telas/09-empresa-editar.png) Editar empresa | ![Editar empresa com erros](docs/telas/10-empresa-editar-erros.png) Editar empresa com erros |
+| ![Desativar empresa](docs/telas/11-empresa-desativar.png) Desativar empresa | ![Ficha da empresa](docs/telas/12-ficha-empresa.png) Ficha da empresa |
+| ![Usuários](docs/telas/13-usuarios.png) Usuários | ![Permissões](docs/telas/14-permissoes.png) Permissões |
+| ![Erro 404](docs/telas/15-erro-404.png) Erro 404 | ![Empresas no celular](docs/telas/16-empresas-celular.png) Empresas no celular |
 
 ## Tecnologias
 
@@ -114,12 +130,15 @@ Todos usam a senha **`inovahub`**.
 | `analista` | Analista | Cria e edita empresas e interações |
 | `consulta` | Consulta | Somente leitura |
 
+Marque **Manter conectado** no login para continuar logado ao recarregar a página. Os dados de demonstração ficam no navegador (`localStorage`); para voltar ao estado inicial, limpe os dados do site.
+
 ## Estrutura de pastas
 
 ```text
 inovahub/
 ├── docs/
-│   └── ESCOPO.md          # Escopo do projeto para codificação
+│   ├── ESCOPO.md          # Escopo do projeto para codificação
+│   └── telas/             # Capturas das telas implementadas
 ├── public/                # Arquivos servidos como estão (favicon)
 ├── src/
 │   ├── assets/            # Logos institucionais
@@ -127,6 +146,15 @@ inovahub/
 │   ├── contexts/          # Sessão, tema e avisos
 │   ├── data/              # Dados de exemplo e permissões
 │   ├── pages/             # Telas, agrupadas por módulo
+│   │   ├── autenticacao/  # Login
+│   │   ├── configuracoes/
+│   │   ├── dashboard/
+│   │   ├── empresas/      # Listagem, formulário, ficha, desativação e regras
+│   │   ├── erros/         # 404 e 403
+│   │   ├── perfil/
+│   │   ├── permissoes/
+│   │   ├── relatorios/
+│   │   └── usuarios/
 │   ├── services/          # Acesso a dados (simulado)
 │   ├── utils/             # Funções auxiliares
 │   ├── App.jsx            # Rotas
@@ -149,7 +177,7 @@ inovahub/
 | `v0.1.0` | Estrutura, design system, layout, login, erros 404/403 | ✅ |
 | `v0.2.0` | Cadastro de empresas | ✅ |
 | `v0.3.0` | Dashboard | ✅ |
-| `v0.4.0` | Usuários, permissões, relatórios, configurações e perfil | ⚪ |
+| `v0.4.0` | Usuários, permissões, relatórios, configurações e perfil | ✅ |
 | `v1.0.0` | Integração com o back-end | ⚪ |
 
 ## Como contribuir
