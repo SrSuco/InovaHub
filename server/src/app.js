@@ -5,6 +5,7 @@ import { consultar } from './db.js';
 import { exigirLogin } from './middlewares/autenticacao.js';
 import { rotaNaoEncontrada, tratarErros } from './middlewares/erros.js';
 import { rotasAuth } from './rotas/auth.js';
+import { rotasEmpresas } from './rotas/empresas.js';
 import { rotasPermissoes } from './rotas/permissoes.js';
 import { rota } from './utils/rota.js';
 
@@ -26,6 +27,7 @@ export function criarApp() {
   );
 
   api.use('/auth', rotasAuth);
+  api.use('/empresas', exigirLogin, rotasEmpresas);
   api.use('/permissoes', exigirLogin, rotasPermissoes);
 
   app.use('/api', api);
