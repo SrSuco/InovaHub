@@ -7,7 +7,7 @@ import { useAvisos } from '../../contexts/AvisosContext.jsx';
 import { useSessao } from '../../contexts/SessaoContext.jsx';
 import { ACOES, MODULOS, badgeDoPerfil } from '../../data/permissoes.js';
 import { iniciais } from '../../data/usuarios.js';
-import { salvarUsuario } from '../../services/usuariosService.js';
+import { alterarSenha, atualizarMeuPerfil } from '../../services/usuariosService.js';
 import { mascararTelefone } from '../../utils/mascaras.js';
 import { telefoneValido } from '../../utils/validacao.js';
 import { validarNovaSenha } from './validacaoSenha.js';
@@ -28,18 +28,29 @@ export default function MeuPerfil() {
     if (dados.telefone && !telefoneValido(dados.telefone)) erros.telefone = 'Telefone inválido. Use DDD e número.';
     setErrosDados(erros);
     if (Object.keys(erros).length) return;
-    await salvarUsuario({ ...usuario, ...dados });
-    atualizarUsuarioLogado(dados);
-    avisar('Seus dados foram atualizados.');
+    try {
+      await atualizarMeuPerfil(usuario, dados);
+      atualizarUsuarioLogado(dados);
+      avisar('Seus dados foram atualizados.');
+    } catch (erro) {
+      if (erro.campos) setErrosDados(erro.campos);
+      else avisar(erro.message, 'erro');
+    }
   }
 
-  function trocarSenha(e) {
+  async function trocarSenha(e) {
     e.preventDefault();
     const erros = validarNovaSenha(senha);
     setErrosSenha(erros);
     if (Object.keys(erros).length) return;
-    setSenha({ atual: '', nova: '', confirmacao: '' });
-    avisar('Senha alterada. Use a nova senha no próximo acesso.');
+    try {
+      await alterarSenha(senha);
+      setSenha({ atual: '', nova: '', confirmacao: '' });
+      avisar('Senha alterada. Use a nova senha no próximo acesso.');
+    } catch (erro) {
+      if (erro.campos) setErrosSenha(erro.campos);
+      else avisar(erro.message, 'erro');
+    }
   }
 
   return (

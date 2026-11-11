@@ -27,9 +27,13 @@ export default function Permissoes() {
           type="button"
           className="btn btn-primary btn-sm"
           disabled={!alterado}
-          onClick={() => {
-            salvarMatriz(rascunho);
-            avisar('Permissões salvas. Valem no próximo acesso de cada pessoa.');
+          onClick={async () => {
+            try {
+              setRascunho(await salvarMatriz(rascunho));
+              avisar('Permissões salvas. Valem no próximo acesso de cada pessoa.');
+            } catch (erro) {
+              avisar(erro.message, 'erro');
+            }
           }}
         >
           <Icone nome="save" className="w-4 h-4" />
