@@ -1,28 +1,17 @@
 /** Listas usadas nos campos de seleção do cadastro de empresas. */
-export const CATEGORIAS = ['Prospect', 'Pré-incubada', 'Incubada', 'Residente', 'Graduada', 'Parceira', 'Instituição'];
+export const CATEGORIAS = ['Prospect', 'Pré-incubada', 'Incubada', 'Residente', 'Graduada', 'Parceira', 'Investidor', 'Instituição'];
 
-export const SETORES = [
-  'Agronegócio',
-  'Alimentos',
-  'Biotecnologia',
-  'Construção civil',
-  'Educação',
-  'Energia',
-  'Finanças',
-  'Fomento',
-  'Indústria 4.0',
-  'Logística',
-  'Robótica',
-  'Saúde',
-  'Software',
-  'Sustentabilidade',
-  'Têxtil',
-  'Varejo',
+export const SETORES = ['Software', 'Saúde', 'Indústria 4.0', 'Energia', 'Agronegócio', 'Robótica', 'Têxtil', 'Educação', 'Fomento'];
+
+export const PORTES = ['MEI', 'Microempresa (ME)', 'Pequeno porte (EPP)', 'Médio porte', 'Grande porte'];
+
+export const MOTIVOS_DESATIVACAO = [
+  'Graduou e saiu do parque',
+  'Encerrou as atividades',
+  'Desistiu do programa',
+  'Cadastro duplicado',
+  'Outro motivo',
 ];
-
-export const PORTES = ['MEI', 'ME', 'EPP', 'Média', 'Grande'];
-
-export const SITUACOES = ['Ativa', 'Inativa'];
 
 /** Classe de badge (DaisyUI) para cada categoria. */
 export const BADGE_CATEGORIA = {
@@ -31,6 +20,7 @@ export const BADGE_CATEGORIA = {
   Incubada: 'badge-primary',
   Residente: 'badge-secondary',
   Graduada: 'badge-info',
-  Parceira: 'badge-outline',
+  Parceira: 'badge-success badge-outline',
+  Investidor: 'badge-warning badge-outline',
   'Instituição': 'badge-outline',
 };
