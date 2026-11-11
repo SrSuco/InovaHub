@@ -5,7 +5,6 @@ export function rotaNaoEncontrada(req, _res, next) {
 }
 
 /** Converte qualquer erro em uma resposta JSON { mensagem, campos? }. */
-// eslint-disable-next-line no-unused-vars
 export function tratarErros(erro, _req, res, _next) {
   if (erro instanceof ErroHttp) {
     return res.status(erro.status).json({ mensagem: erro.message, ...(erro.campos && { campos: erro.campos }) });
