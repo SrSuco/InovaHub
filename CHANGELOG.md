@@ -4,6 +4,14 @@ Todas as mudanças relevantes do projeto ficam registradas aqui.
 
 O formato segue o [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/) e o projeto usa [Versionamento Semântico](https://semver.org/lang/pt-BR/).
 
+## [0.3.0] - 2026-11-11
+
+### Adicionado
+
+- Dashboard com indicadores de empresas ativas, incubadas, parceiros e empresas sem acompanhamento.
+- Gráficos de linhas (interações por mês), rosca (empresas por categoria) e barras (empresas por setor), que seguem o modo claro/escuro e a cor de destaque.
+- Lista de empresas sem interação há mais de 30 dias e lista de tarefas.
+
 ## [0.2.0] - 2026-11-11
 
 ### Adicionado
@@ -37,5 +45,6 @@ O formato segue o [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/) e 
 - Páginas de erro 404 e de acesso não autorizado (403).
 - Guia de contribuição e modelo de pull request.
 
+[0.3.0]: https://github.com/SrSuco/inovahub/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/SrSuco/inovahub/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/SrSuco/inovahub/releases/tag/v0.1.0
