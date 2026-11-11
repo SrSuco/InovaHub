@@ -4,6 +4,22 @@ Todas as mudanças relevantes do projeto ficam registradas aqui.
 
 O formato segue o [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/) e o projeto usa [Versionamento Semântico](https://semver.org/lang/pt-BR/).
 
+## [0.4.0] - 2026-11-11
+
+### Adicionado
+
+- Lista de usuários com totais por situação, busca, filtros por perfil e situação e ações de editar, redefinir senha, reenviar convite, desativar e reativar acesso.
+- Cadastro e edição de usuário com escolha do perfil, resumo do que o perfil pode fazer e opção de convite ou senha temporária.
+- Matriz de permissões por perfil, com aviso de alterações não salvas e opção de restaurar o padrão.
+- Relatórios de empresas por categoria, setor e cidade, com prévia e exportação.
+- Configurações do parque e da aparência (modo claro/escuro e cor de destaque).
+- Meu perfil com dados pessoais, troca de senha e resumo de acesso.
+- Capturas das telas no README.
+
+### Corrigido
+
+- E-mails longos no menu do usuário não causam mais rolagem lateral.
+
 ## [0.3.0] - 2026-11-11
 
 ### Adicionado
@@ -45,6 +61,7 @@ O formato segue o [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/) e 
 - Páginas de erro 404 e de acesso não autorizado (403).
 - Guia de contribuição e modelo de pull request.
 
+[0.4.0]: https://github.com/SrSuco/inovahub/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/SrSuco/inovahub/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/SrSuco/inovahub/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/SrSuco/inovahub/releases/tag/v0.1.0
