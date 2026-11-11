@@ -1,0 +1,71 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html,
+  body,
+  #root {
+    min-height: 100%;
+  }
+
+  body {
+    @apply bg-base-200 text-base-content font-sans antialiased;
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply font-display;
+    text-wrap: balance;
+  }
+
+  :focus-visible {
+    outline: 2px solid oklch(var(--p));
+    outline-offset: 2px;
+  }
+}
+
+@layer components {
+  .gutter {
+    padding-left: max(1rem, env(safe-area-inset-left, 0px));
+    padding-right: max(1rem, env(safe-area-inset-right, 0px));
+  }
+
+  @media (min-width: 1024px) {
+    .gutter {
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+  }
+
+  .tabnum {
+    font-variant-numeric: tabular-nums;
+  }
+
+  .cartao {
+    @apply card bg-base-100 border border-base-300;
+  }
+
+  .painel-marca {
+    background:
+      radial-gradient(circle at 85% 15%, oklch(var(--pc) / 0.1) 0 18%, transparent 18.5%),
+      radial-gradient(circle at 10% 90%, oklch(var(--pc) / 0.08) 0 26%, transparent 26.5%),
+      oklch(var(--p));
+    color: oklch(var(--pc));
+  }
+
+  .menu li > a.active,
+  .menu li > a.active:hover {
+    background: oklch(var(--p) / 0.12) !important;
+    color: oklch(var(--p)) !important;
+    font-weight: 600;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
+}
