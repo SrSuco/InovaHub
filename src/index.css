@@ -39,6 +39,10 @@
     }
   }
 
+  .badge {
+    white-space: nowrap;
+  }
+
   .tabnum {
     font-variant-numeric: tabular-nums;
   }
