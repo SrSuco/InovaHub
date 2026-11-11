@@ -11,7 +11,7 @@
 </p>
 
 <p align="center">
-  <img alt="Versão" src="https://img.shields.io/badge/vers%C3%A3o-0.1.0-AB218E" />
+  <img alt="Versão" src="https://img.shields.io/badge/vers%C3%A3o-0.2.0-AB218E" />
   <img alt="Etapa" src="https://img.shields.io/badge/etapa-CDI--2-00703C" />
   <img alt="React" src="https://img.shields.io/badge/React-18-61DAFB" />
   <img alt="Tailwind" src="https://img.shields.io/badge/Tailwind%20%2B%20DaisyUI-3%20%2F%204-38BDF8" />
@@ -25,12 +25,13 @@
 2. [Telas implementadas](#telas-implementadas)
 3. [Tecnologias](#tecnologias)
 4. [Como rodar](#como-rodar)
-5. [Usuários de demonstração](#usuários-de-demonstração)
-6. [Estrutura de pastas](#estrutura-de-pastas)
-7. [Documentação](#documentação)
-8. [Roadmap](#roadmap)
-9. [Como contribuir](#como-contribuir)
-10. [Créditos](#créditos)
+5. [Cadastro de empresas](#cadastro-de-empresas)
+6. [Usuários de demonstração](#usuários-de-demonstração)
+7. [Estrutura de pastas](#estrutura-de-pastas)
+8. [Documentação](#documentação)
+9. [Roadmap](#roadmap)
+10. [Como contribuir](#como-contribuir)
+11. [Créditos](#créditos)
 
 ---
 
@@ -48,7 +49,11 @@ Esta é a etapa **CDI-2**: a implementação do front-end a partir dos protótip
 | Dashboard | `/` | 🟡 estrutura |
 | Erro 404 | qualquer rota inexistente | ✅ |
 | Acesso não autorizado (403) | `/acesso-negado` | ✅ |
-| Cadastro de empresas | `/empresas` | ⚪ |
+| Listagem de empresas (filtros, ordenação, EmptyView) | `/empresas` | ✅ |
+| Adicionar empresa (e com erros) | `/empresas/nova` | ✅ |
+| Editar empresa (e com erros) | `/empresas/:id/editar` | ✅ |
+| Desativar e reativar empresa | ações da listagem e da ficha | ✅ |
+| Ficha da empresa | `/empresas/:id` | ✅ |
 | Usuários e permissões | `/usuarios`, `/permissoes` | ⚪ |
 | Relatórios, Configurações e Meu perfil | `/relatorios`, `/configuracoes`, `/perfil` | ⚪ |
 
@@ -84,6 +89,19 @@ Abra o endereço que aparecer no terminal (normalmente `http://localhost:5173`).
 | `npm test` | Roda os testes automatizados |
 | `npm run build` | Gera a versão de produção em `dist/` |
 | `npm run preview` | Serve a versão de produção localmente |
+
+## Cadastro de empresas
+
+Implementa o pedido da etapa CDI-2 para o cadastro de empresas:
+
+- **Listagem** com abas Ativas, Desativadas e Todas, busca por nome, CNPJ, contato ou e-mail, filtros por categoria, setor e responsável, e ordenação por nome, contato, e-mail, categoria, última interação ou data de cadastro.
+- **EmptyView** quando não há empresas cadastradas e quando a busca não encontra nada.
+- **Adicionar e editar** com validação campo a campo e resumo de erros no topo. O CNPJ não pode repetir nem ser alterado depois do cadastro.
+- **Desativar** no lugar de excluir: a empresa sai das ativas, mas mantém os dados e o histórico, e pode ser reativada.
+
+As regras completas estão na [seção 6 do escopo](docs/ESCOPO.md#6-módulo-cadastro-de-empresas).
+
+> Dica: para ver a tela vazia, rode `localStorage.setItem('inovahub:empresas', '[]')` no console do navegador e recarregue. Para voltar aos dados de exemplo, rode `localStorage.removeItem('inovahub:empresas')`.
 
 ## Usuários de demonstração
 
@@ -129,8 +147,8 @@ inovahub/
 | Versão | Conteúdo | Situação |
 |---|---|---|
 | `v0.1.0` | Estrutura, design system, layout, login, erros 404/403 | ✅ |
-| `v0.2.0` | Dashboard | ⚪ |
-| `v0.3.0` | Cadastro de empresas | ⚪ |
+| `v0.2.0` | Cadastro de empresas | ✅ |
+| `v0.3.0` | Dashboard | ⚪ |
 | `v0.4.0` | Usuários, permissões, relatórios, configurações e perfil | ⚪ |
 | `v1.0.0` | Integração com o back-end | ⚪ |
 
