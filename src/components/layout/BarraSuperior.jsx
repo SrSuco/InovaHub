@@ -48,7 +48,7 @@ export default function BarraSuperior({ migalhas, idGaveta }) {
             <span>
               {usuario.nome}
               <br />
-              <span className="font-normal">{usuario.email}</span>
+              <span className="font-normal break-all">{usuario.email}</span>
             </span>
           </li>
           <li>
