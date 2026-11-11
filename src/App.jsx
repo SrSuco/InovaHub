@@ -16,6 +16,9 @@ const FichaEmpresa = lazy(() => import('./pages/empresas/FichaEmpresa.jsx'));
 const ListaUsuarios = lazy(() => import('./pages/usuarios/ListaUsuarios.jsx'));
 const FormularioUsuario = lazy(() => import('./pages/usuarios/FormularioUsuario.jsx'));
 const Permissoes = lazy(() => import('./pages/permissoes/Permissoes.jsx'));
+const Relatorios = lazy(() => import('./pages/relatorios/Relatorios.jsx'));
+const Configuracoes = lazy(() => import('./pages/configuracoes/Configuracoes.jsx'));
+const MeuPerfil = lazy(() => import('./pages/perfil/MeuPerfil.jsx'));
 
 function Carregando() {
   return (
@@ -50,6 +53,9 @@ export default function App() {
                       <Route path=":id/editar" element={<RotaProtegida modulo="usuarios" acao="E"><FormularioUsuario key="editar" /></RotaProtegida>} />
                     </Route>
                     <Route path="permissoes" element={<RotaProtegida modulo="permissoes"><Permissoes /></RotaProtegida>} />
+                    <Route path="relatorios" element={<RotaProtegida modulo="relatorios"><Relatorios /></RotaProtegida>} />
+                    <Route path="configuracoes" element={<RotaProtegida modulo="configuracoes"><Configuracoes /></RotaProtegida>} />
+                    <Route path="perfil" element={<MeuPerfil />} />
                   </Route>
                 </Route>
                 <Route path="*" element={<NaoEncontrada />} />
