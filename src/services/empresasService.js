@@ -1,10 +1,11 @@
 import { EMPRESAS_INICIAIS } from '../data/empresas.js';
 import { somenteDigitos } from '../utils/validacao.js';
 import { aguardar, gravar, ler } from './armazenamento.js';
+import { api, usaApi } from './clienteApi.js';
 
 /**
- * Serviço simulado de empresas. Hoje os dados ficam no navegador;
- * na integração com o back-end, só o corpo destas funções muda.
+ * Serviço de empresas. Com a API ligada (VITE_API_URL), os dados vêm do
+ * MySQL; sem ela, ficam no navegador, no modo demonstração.
  * Não existe função de exclusão: empresas são apenas desativadas.
  */
 const CHAVE = 'empresas';
@@ -21,12 +22,24 @@ export class ErroValidacao extends Error {
   }
 }
 
+/** Converte o erro 422 da API no mesmo ErroValidacao do modo demonstração. */
+async function chamarApi(promessa) {
+  try {
+    return await promessa;
+  } catch (erro) {
+    if (erro.status === 422 && erro.campos) throw new ErroValidacao(erro.campos);
+    throw erro;
+  }
+}
+
 export async function listarEmpresas() {
+  if (usaApi) return api.get('/empresas');
   await aguardar();
   return todas();
 }
 
 export async function obterEmpresa(id) {
+  if (usaApi) return api.get(`/empresas/${encodeURIComponent(id)}`);
   await aguardar();
   const empresa = todas().find((e) => e.id === id);
   if (!empresa) throw new Error('Empresa não encontrada.');
@@ -40,6 +53,7 @@ export function buscarPorCnpj(lista, cnpj, ignorarId) {
 }
 
 export async function criarEmpresa(dados) {
+  if (usaApi) return chamarApi(api.post('/empresas', dados));
   await aguardar(400);
   const lista = todas();
   const existente = buscarPorCnpj(lista, dados.cnpj);
@@ -61,6 +75,7 @@ export async function criarEmpresa(dados) {
 }
 
 export async function atualizarEmpresa(id, dados) {
+  if (usaApi) return chamarApi(api.put(`/empresas/${encodeURIComponent(id)}`, dados));
   await aguardar(400);
   const lista = todas();
   const atual = lista.find((e) => e.id === id);
@@ -73,19 +88,21 @@ export async function atualizarEmpresa(id, dados) {
 }
 
 export async function desativarEmpresa(id, { motivo, dataSaida, observacao = '' }) {
-  await aguardar();
   if (!motivo) throw new ErroValidacao({ motivo: 'Escolha o motivo da desativação.' });
+  if (usaApi) return chamarApi(api.post(`/empresas/${encodeURIComponent(id)}/desativar`, { motivo, dataSaida, observacao }));
+  await aguardar();
   const lista = todas();
   const desativada = { situacao: 'Desativada', desativacao: { motivo, dataSaida, observacao }, atualizadoEm: agora() };
   salvarTodas(lista.map((e) => (e.id === id ? { ...e, ...desativada } : e)));
 }
 
 export async function reativarEmpresa(id) {
+  if (usaApi) return api.post(`/empresas/${encodeURIComponent(id)}/reativar`);
   await aguardar();
   salvarTodas(todas().map((e) => (e.id === id ? { ...e, situacao: 'Ativa', desativacao: null, atualizadoEm: agora() } : e)));
 }
 
-/** Apaga todas as empresas da base local (usado para demonstrar a tela vazia). */
+/** Apaga todas as empresas da base local (só no modo demonstração, para mostrar a tela vazia). */
 export async function esvaziarBaseDemonstracao() {
   salvarTodas([]);
 }
