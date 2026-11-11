@@ -38,7 +38,7 @@ export const PERFIS = [
   {
     nome: 'Consulta',
     badge: 'badge-ghost',
-    descricao: 'Somente leitura das empresas atribuídas, eventos e relatórios. Ideal para professores e avaliadores.',
+    descricao: 'Somente leitura de empresas, eventos e relatórios. Ideal para professores e avaliadores.',
   },
 ];
 
