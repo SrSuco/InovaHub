@@ -11,7 +11,7 @@ export default function Campo({ id, rotulo, obrigatorio, erro, ajuda, className 
   const descritoPor = [erro && idErro, ajuda && idAjuda].filter(Boolean).join(' ') || undefined;
 
   return (
-    <div className={`form-control w-full ${className}`}>
+    <div className={`form-control w-full min-w-0 ${className}`}>
       <label htmlFor={id} className="label pb-1">
         <span className="label-text">
           {rotulo}
