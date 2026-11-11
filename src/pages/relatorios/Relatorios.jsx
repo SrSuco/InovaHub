@@ -22,7 +22,7 @@ export default function Relatorios() {
   const [periodo, setPeriodo] = useState('Este ano');
 
   useEffect(() => {
-    listarEmpresas().then(setEmpresas);
+    listarEmpresas().then(setEmpresas).catch((erro) => avisar(erro.message, 'erro'));
   }, []);
 
   const linhas = contarPor(empresas, selecionado.campo);

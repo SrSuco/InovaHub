@@ -1,0 +1,29 @@
+{
+  "name": "inovahub-api",
+  "private": true,
+  "version": "0.5.0",
+  "description": "API do InovaHub CRM, com Express e MySQL",
+  "type": "module",
+  "main": "src/index.js",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "node --watch src/index.js",
+    "start": "node src/index.js",
+    "db:criar": "node scripts/criar-banco.js",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "bcryptjs": "2.4.3",
+    "cors": "2.8.5",
+    "dotenv": "16.4.7",
+    "express": "4.21.2",
+    "jsonwebtoken": "9.0.2",
+    "mysql2": "3.11.5"
+  },
+  "devDependencies": {
+    "supertest": "7.0.0",
+    "vitest": "2.1.8"
+  }
+}

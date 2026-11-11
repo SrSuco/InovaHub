@@ -34,6 +34,8 @@ export default function ModalDesativarEmpresa({ empresa, aoFechar, aoConcluir })
     try {
       await desativarEmpresa(empresa.id, { motivo, dataSaida, observacao });
       aoConcluir(empresa);
+    } catch (falha) {
+      setErro(falha.campos?.motivo ?? falha.campos?.dataSaida ?? falha.message);
     } finally {
       setEnviando(false);
     }

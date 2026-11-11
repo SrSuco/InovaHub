@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import Icone from '../../components/Icone.jsx';
 import Campo, { classeInput, classeSelect, classeTextarea } from '../../components/formulario/Campo.jsx';
@@ -15,7 +15,7 @@ import {
   criarEmpresa,
   obterEmpresa,
 } from '../../services/empresasService.js';
-import { responsaveisDisponiveis } from '../../services/usuariosService.js';
+import { useResponsaveis } from '../../hooks/useResponsaveis.js';
 import { mascararCep, mascararCnpj, mascararTelefone } from '../../utils/mascaras.js';
 import { UFS } from '../../utils/validacao.js';
 import { nomeExibido } from './consultaEmpresas.js';
@@ -42,7 +42,7 @@ export default function FormularioEmpresa() {
   const modo = id ? 'editar' : 'nova';
   const navegar = useNavigate();
   const { avisar } = useAvisos();
-  const responsaveis = useMemo(() => responsaveisDisponiveis(), []);
+  const responsaveis = useResponsaveis();
 
   const [dados, setDados] = useState(EMPRESA_VAZIA);
   const [original, setOriginal] = useState(EMPRESA_VAZIA);

@@ -26,13 +26,15 @@ Este documento define **o que será codificado**, **como** e **em que ordem**. E
 
 ## 1. Objetivo
 
-Construir o **front-end** do InovaHub com todas as telas prototipadas, navegação real entre elas, validação de formulários e controle de acesso por perfil. Os dados ficam em uma **camada de serviço simulada** (dados de exemplo salvos no navegador), com a mesma forma de chamada que a API real terá. Assim, quando o back-end for definido, basta trocar a implementação dos serviços, sem refazer as telas.
+Construir o **front-end** do InovaHub com todas as telas prototipadas, navegação real entre elas, validação de formulários e controle de acesso por perfil, ligado a uma **API em Node.js com banco MySQL**.
+
+As telas acessam dados só pela camada de serviços. Com a variável `VITE_API_URL` definida, os serviços chamam a API; sem ela, usam dados de exemplo salvos no navegador (**modo demonstração**), para apresentar o protótipo sem instalar o banco. A modelagem está nos [diagramas UML](uml/README.md) e no [documento do banco](banco-de-dados.md).
 
 ## 2. Escopo desta fase
 
 | Item | Incluído |
 |---|---|
-| Autenticação simulada (login, erro de login, sair) | ✅ |
+| Autenticação (login, erro de login, sair) com senha bcrypt e token JWT | ✅ |
 | Layout base (menu lateral, barra superior, breadcrumb, rodapé) | ✅ |
 | Dashboard com indicadores e gráficos | ✅ |
 | **Cadastro de empresas completo** (listar, filtrar, ordenar, adicionar, editar, desativar, reativar) | ✅ |
@@ -42,6 +44,9 @@ Construir o **front-end** do InovaHub com todas as telas prototipadas, navegaç�
 | Páginas de erro 404 e 403 | ✅ |
 | Tema claro/escuro e troca da cor de destaque | ✅ |
 | Layout responsivo (celular, tablet, computador) | ✅ |
+| Diagramas UML (casos de uso, classes, sequência, estados, componentes) | ✅ |
+| Banco MySQL (esquema, carga inicial e diagrama ER) | ✅ |
+| API REST em Node.js + Express ligada às telas | ✅ |
 | Testes automatizados das regras de negócio (validações, filtros, permissões) | ✅ |
 
 ## 3. Perfis de acesso
@@ -76,8 +81,11 @@ As permissões são uma matriz **módulo × ação**, com as ações `V` (ver), 
 | Rotas | React Router 6 | Uma URL por tela, com rotas protegidas por perfil. |
 | Estilo | Tailwind CSS 3 + DaisyUI 4 | Mesmo design system dos protótipos; temas trocáveis. |
 | Gráficos | Chart.js 4 (react-chartjs-2) | Barras, linhas e rosca do dashboard. |
-| Testes | Vitest | Mesmo ecossistema do Vite, sem configuração extra. |
-| Dados | Serviços simulados com `localStorage` | Permitem testar o fluxo completo sem back-end. |
+| Testes | Vitest + Supertest | Mesmo ecossistema do Vite; Supertest chama a API sem subir o servidor. |
+| API | Node.js 20 + Express 4 | Mesma linguagem do front-end; rotas simples e bem documentadas. |
+| Banco de dados | MySQL 8 (driver mysql2) | Banco relacional pedido na disciplina; consultas com parâmetros. |
+| Autenticação | bcrypt + JWT | Senha nunca guardada em texto; sessão sem estado no servidor. |
+| Modo demonstração | Serviços com `localStorage` | Permitem apresentar as telas sem banco. |
 
 ### 4.1 Organização das pastas
 
@@ -88,7 +96,8 @@ src/
 ├── contexts/        # Sessão do usuário, tema e avisos (toasts)
 ├── data/            # Dados de exemplo e matriz de permissões
 ├── pages/           # Uma pasta por módulo, com as telas
-├── services/        # Acesso a dados (hoje simulado, amanhã a API)
+├── hooks/           # Hooks reutilizáveis
+├── services/        # Acesso a dados: API (clienteApi.js) ou modo demonstração
 ├── utils/           # Validações, máscaras, ordenação e formatação
 ├── App.jsx          # Definição das rotas
 └── main.jsx         # Ponto de entrada
@@ -107,7 +116,28 @@ desativarEmpresa(id, motivo) // nunca exclui
 reativarEmpresa(id)
 ```
 
-As funções devolvem `Promise`, simulando a latência de rede. Na integração com o back-end, só o corpo dessas funções muda.
+As funções devolvem `Promise`. Cada uma verifica se a API está configurada (`usaApi`) e chama a rota correspondente; senão, usa os dados do navegador. As telas não mudam entre os dois modos.
+
+### 4.3 API e banco de dados
+
+```text
+server/
+├── scripts/criar-banco.js   # roda database/schema.sql e seed.sql
+└── src/
+    ├── app.js               # Express, CORS e rotas
+    ├── db.js                # pool mysql2 e transações
+    ├── middlewares/         # login (JWT), permissões e erros
+    ├── repositorios/        # SQL de empresas, usuários e permissões
+    └── rotas/               # /api/auth, /api/empresas, /api/usuarios, /api/permissoes
+database/
+├── schema.sql               # 18 tabelas
+└── seed.sql                 # carga inicial
+```
+
+- A API confere a **matriz de permissões** do banco em cada rota, não só o menu das telas.
+- A API usa as **mesmas regras de validação** das telas (`validacaoEmpresa.js`, `validacaoUsuario.js`, `validacaoSenha.js`), então a mensagem de erro é a mesma nos dois lados.
+- **Não existe rota `DELETE`.** A desativação muda a situação e grava o motivo em `empresa_desativacoes`, na mesma transação.
+- Rotas, variáveis de ambiente e exemplos: [`server/README.md`](../server/README.md).
 
 ## 5. Mapa de telas e rotas
 
@@ -239,7 +269,7 @@ Os campos seguem o protótipo de tela CDI-2 (`prototipos/cdi2-cadastro-empresas.
 - **Responsividade:** sem rolagem horizontal a partir de 360 px de largura; menu lateral vira gaveta abaixo de 1024 px.
 - **Desempenho:** primeira carga abaixo de 300 KB compactados; telas carregadas sob demanda.
 - **Idioma:** toda a interface em português do Brasil; datas no formato dd/mm/aaaa.
-- **Segurança (preparação):** mensagens de login genéricas; nenhuma senha guardada em texto no navegador; permissões conferidas também na rota, não só no menu.
+- **Segurança:** mensagens de login genéricas; senhas com bcrypt; token JWT com validade; consultas SQL com parâmetros; permissões conferidas na API, não só no menu; usuário desativado perde o acesso na hora.
 
 ## 9. Plano de entregas (versões)
 
@@ -251,12 +281,14 @@ O projeto segue [Versionamento Semântico](https://semver.org/lang/pt-BR/). Cada
 | `v0.2.0` | Cadastro de empresas: listagem, filtros, ordenação, EmptyView, adicionar, editar, desativar, ficha |
 | `v0.3.0` | Dashboard |
 | `v0.4.0` | Usuários, permissões, relatórios, configurações e perfil |
-| `v1.0.0` | Integração com o back-end (a definir) |
+| `v0.5.0` | Diagramas UML, banco MySQL, API em Node.js e telas ligadas à API |
+| `v0.6.0` | Interações, contatos e oportunidades (as tabelas já existem) |
+| `v1.0.0` | Implantação no servidor do parque |
 
 ## 10. Fora do escopo
 
-- Back-end, banco de dados e autenticação real (próxima etapa).
-- Módulos Contatos, Oportunidades e Eventos como telas próprias (aparecem no menu como "em breve").
+- Telas de interações, contatos, oportunidades, eventos, programas, vínculos, tarefas e indicadores (as tabelas já estão no banco; as telas vêm a partir da v0.6.0).
+- Configurações do parque gravadas no banco (hoje ficam no navegador).
 - Envio real de e-mails e geração real de PDF/Excel (as ações mostram um aviso simulado).
 - Chamadas reais às bases de CNPJ e CEP (as consultas são simuladas, ver 6.6).
 
@@ -268,5 +300,5 @@ Uma tela só é considerada pronta quando:
 2. Funciona em celular (375 px) e computador (1440 px), nos modos claro e escuro.
 3. Respeita as permissões dos quatro perfis.
 4. Tem as regras de negócio cobertas por testes (`npm test` passando).
-5. O `npm run build` termina sem erros.
+5. O `npm run build` termina sem erros, e `npm test` na pasta `server` passa contra o MySQL.
 6. O README e o CHANGELOG foram atualizados.

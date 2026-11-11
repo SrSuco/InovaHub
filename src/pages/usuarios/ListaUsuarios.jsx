@@ -35,7 +35,10 @@ export default function ListaUsuarios() {
   const [situacao, setSituacao] = useState('');
   const [desativando, setDesativando] = useState(null);
 
-  const carregar = useCallback(() => listarUsuarios().then(setUsuarios), []);
+  const carregar = useCallback(
+    () => listarUsuarios().then(setUsuarios).catch((erro) => avisar(erro.message, 'erro')),
+    [avisar],
+  );
   useEffect(() => {
     carregar();
   }, [carregar]);
@@ -62,9 +65,13 @@ export default function ListaUsuarios() {
   const conta = (s) => usuarios.filter((u) => u.situacao === s).length;
 
   async function mudarSituacao(u, nova, mensagem) {
-    await alterarSituacaoUsuario(u.id, nova);
-    avisar(mensagem);
-    carregar();
+    try {
+      await alterarSituacaoUsuario(u.id, nova);
+      avisar(mensagem);
+      carregar();
+    } catch (erro) {
+      avisar(erro.message, 'erro');
+    }
   }
 
   function acoes(u) {
