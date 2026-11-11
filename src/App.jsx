@@ -10,6 +10,9 @@ import AcessoNegado from './pages/erros/AcessoNegado.jsx';
 import NaoEncontrada from './pages/erros/NaoEncontrada.jsx';
 
 const Dashboard = lazy(() => import('./pages/dashboard/Dashboard.jsx'));
+const ListaEmpresas = lazy(() => import('./pages/empresas/ListaEmpresas.jsx'));
+const FormularioEmpresa = lazy(() => import('./pages/empresas/FormularioEmpresa.jsx'));
+const FichaEmpresa = lazy(() => import('./pages/empresas/FichaEmpresa.jsx'));
 
 function Carregando() {
   return (
@@ -32,6 +35,12 @@ export default function App() {
                 <Route element={<RotaProtegida />}>
                   <Route element={<LayoutApp />}>
                     <Route index element={<RotaProtegida modulo="dashboard"><Dashboard /></RotaProtegida>} />
+                    <Route path="empresas">
+                      <Route index element={<RotaProtegida modulo="empresas"><ListaEmpresas /></RotaProtegida>} />
+                      <Route path="nova" element={<RotaProtegida modulo="empresas" acao="C"><FormularioEmpresa key="nova" /></RotaProtegida>} />
+                      <Route path=":id" element={<RotaProtegida modulo="empresas"><FichaEmpresa /></RotaProtegida>} />
+                      <Route path=":id/editar" element={<RotaProtegida modulo="empresas" acao="E"><FormularioEmpresa key="editar" /></RotaProtegida>} />
+                    </Route>
                   </Route>
                 </Route>
                 <Route path="*" element={<NaoEncontrada />} />

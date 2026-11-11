@@ -141,76 +141,82 @@ Requisito do orientador: protótipo e implementação do cadastro de empresas co
 
 ### 6.1 Campos
 
-| Seção | Campo | Tipo | Obrigatório | Validação |
-|---|---|---|---|---|
-| Dados gerais | Razão social | texto | sim | 3 a 120 caracteres |
-| | Nome fantasia | texto | sim | 2 a 60 caracteres |
-| | CNPJ | texto com máscara | sim | 14 dígitos, dígitos verificadores válidos, único na base |
-| | Inscrição estadual | texto | não | até 20 caracteres, ou "Isento" |
-| | Data de fundação | data | não | não pode ser futura |
-| | Porte | seleção | sim | MEI, ME, EPP, Média, Grande |
-| | Setor | seleção | sim | lista de setores do parque |
-| | Categoria no parque | seleção | sim | Prospect, Pré-incubada, Incubada, Residente, Graduada, Parceira, Instituição |
-| | Site | URL | não | começa com `http://` ou `https://` |
-| Contato principal | Nome do contato | texto | sim | 3 a 80 caracteres |
-| | Cargo | texto | não | até 60 caracteres |
-| | E-mail | e-mail | sim | formato válido |
-| | Telefone | texto com máscara | sim | 10 ou 11 dígitos com DDD |
-| Endereço | CEP | texto com máscara | sim | 8 dígitos |
-| | Logradouro | texto | sim | |
-| | Número | texto | sim | número ou "S/N" |
-| | Complemento | texto | não | |
-| | Bairro | texto | sim | |
-| | Cidade | texto | sim | |
-| | UF | seleção | sim | sigla válida |
-| Relacionamento | Responsável no parque | seleção | sim | usuário ativo da equipe |
-| | Data de entrada no parque | data | não | não pode ser futura |
-| | Observações | texto longo | não | até 500 caracteres |
-| Controle (automático) | Situação | Ativa / Inativa | | definida pelo sistema |
-| | Motivo e data da desativação | | | preenchidos ao desativar |
-| | Criado em, atualizado em | data e hora | | preenchidos pelo serviço |
+Os campos seguem o protótipo de tela CDI-2 (`prototipos/cdi2-cadastro-empresas.md`).
+
+| Seção | Campo | Obrigatório | Regra |
+|---|---|---|---|
+| Identificação | CNPJ | sim | máscara 00.000.000/0000-00, dígitos verificadores válidos, único na base, **não editável depois do cadastro** |
+| | Razão social | sim | mínimo 3 caracteres |
+| | Nome fantasia | não | se vazio, a listagem mostra a razão social |
+| | Inscrição estadual | não | texto livre ou "Isento" |
+| | Data de fundação | não | data |
+| | Porte | não | MEI, Microempresa (ME), Pequeno porte (EPP), Médio porte, Grande porte |
+| | Site | não | endereço completo com `http://` ou `https://` |
+| Relação com o parque | Categoria | sim | Prospect, Pré-incubada, Incubada, Residente, Graduada, Parceira, Investidor, Instituição |
+| | Setor | sim | Software, Saúde, Indústria 4.0, Energia, Agronegócio, Robótica, Têxtil, Educação, Fomento |
+| | Responsável no parque | sim | usuário ativo da equipe |
+| | Data de entrada no parque | não | data |
+| Contato principal | Nome | sim | mínimo 3 caracteres |
+| | Cargo | não | |
+| | E-mail | sim | formato nome@dominio.tld |
+| | Telefone | sim | DDD + número (10 ou 11 dígitos), máscara (47) 99999-0000 |
+| Endereço | CEP | não | 8 dígitos, máscara 00000-000; o botão de busca preenche o endereço |
+| | Logradouro, número, complemento, bairro | não | |
+| | Cidade | sim | |
+| | UF | não | sigla |
+| Observações | Observações internas | não | texto longo |
+| Controle (automático) | Situação | | Ativa ou Desativada |
+| | Desativação | | motivo, data de saída e observação |
+| | Criado em, atualizado em | | preenchidos pelo serviço |
 
 ### 6.2 Listagem (`/empresas`)
 
-- **Cabeçalho:** título, total de empresas e botão primário **Nova empresa** (perfis com `empresas:C`).
-- **Busca** por nome fantasia, razão social, CNPJ, contato ou e-mail.
-- **Filtros:** categoria, setor, cidade e situação (Ativas, Inativas, Todas). O padrão é **Ativas**. Cada filtro aplicado aparece como *chip* removível, e há o botão **Limpar filtros**.
-- **Ordenação** por nome, contato, e-mail, categoria, cidade e data de cadastro, em ordem crescente ou decrescente. Funciona clicando no cabeçalho da coluna ou pelo seletor "Ordenar por" (no celular).
+- **Cabeçalho:** título, botão **Exportar** (`empresas:P`) e botão primário **Nova empresa** (`empresas:C`).
+- **Abas por situação** com contagem: **Ativas** (padrão), **Desativadas** e **Todas**.
+- **Busca** em nome fantasia, razão social, contato, e-mail e CNPJ (com ou sem pontuação), sem diferenciar acentos e maiúsculas.
+- **Filtros:** categoria, setor e responsável. O botão **Limpar filtros** aparece quando há algum filtro ativo.
+- **Ordenação** por nome, contato, e-mail, categoria, última interação e data de cadastro, em ordem crescente ou decrescente, pelo seletor "Ordenar" ou clicando no título da coluna.
 - **Paginação** de 10 itens, com "Mostrando 1–10 de N".
-- **Ações por linha** no menu "⋯": Abrir ficha, Editar, Desativar (ou Reativar quando inativa).
-- Empresas **inativas** aparecem esmaecidas e com badge "Inativa".
+- **Ações por linha:** ver ficha, editar (só empresas ativas) e desativar ou reativar, conforme a permissão.
+- Empresas desativadas aparecem esmaecidas e com o badge "Desativada".
 - **Celular:** a tabela vira lista de cartões.
-- O estado de busca, filtros, ordenação e página fica na **URL** (`?busca=&ordem=nome&dir=asc`), para que o link possa ser compartilhado e o botão Voltar funcione.
+- Busca, filtros, aba, ordenação e página ficam na **URL** (`?busca=kora&ordem=email&dir=desc`), para que o link possa ser compartilhado e o botão Voltar funcione.
 
 ### 6.3 Estados vazios (padrão EmptyView)
 
 | Situação | Mensagem | Ação |
 |---|---|---|
-| Nenhuma empresa cadastrada | "Nenhuma empresa cadastrada ainda" e uma frase explicando o que é o cadastro | **Cadastrar a primeira empresa** (ou aviso para quem não pode criar) |
-| Busca ou filtro sem resultado | "Nenhuma empresa encontrada para estes filtros" | **Limpar filtros** |
+| Nenhuma empresa cadastrada | "Nenhuma empresa cadastrada ainda" e uma frase explicando o cadastro | **Cadastrar primeira empresa** e **Importar planilha** (ou aviso para quem não pode criar) |
+| Busca ou filtro sem resultado | "Nenhuma empresa encontrada" com o termo buscado | **Limpar filtros** |
 
 ### 6.4 Adicionar e editar (`/empresas/nova`, `/empresas/:id/editar`)
 
-- Formulário em página própria, dividido nas seções da tabela 6.1, com rótulo acima de cada campo e `*` nos obrigatórios.
+- Formulário em página própria, nas seções Identificação, Relação com o parque, Contato principal, Endereço e Observações, com rótulo acima de cada campo e `*` nos obrigatórios. Ao lado, o cartão "Antes de salvar" e os botões **Cadastrar empresa**/**Salvar alterações** e **Cancelar**.
 - **Máscaras** em CNPJ, telefone e CEP.
 - **Validação ao sair do campo** e novamente ao salvar. Cada erro aparece **abaixo do campo**, com borda vermelha e `aria-invalid`.
-- Ao salvar com erros, aparece um **resumo no topo** ("Corrija os 3 campos destacados para continuar") com links para cada campo, e o foco vai para o primeiro campo com erro.
-- **Erros de negócio** vindos do serviço (por exemplo, "Já existe uma empresa com este CNPJ") aparecem no campo correspondente.
-- Botões **Salvar** (primário) e **Cancelar**. Cancelar com alterações não salvas pede confirmação.
-- Sucesso: aviso "Empresa cadastrada com sucesso" (ou "Alterações salvas") e retorno à ficha da empresa.
-- Na edição, o CNPJ pode ser corrigido, mas continua sujeito à regra de unicidade. Empresas inativas abrem em modo leitura, com o botão Reativar.
+- Ao salvar com erros, aparece um **resumo no topo** ("Não foi possível salvar. Corrija os N campos destacados") com um link para cada campo, e o foco vai para o resumo.
+- **CNPJ duplicado** é recusado pelo serviço e aparece no campo: "Este CNPJ já está cadastrado para Nexa Sensores." Se a empresa existente estiver desativada, a mensagem sugere reativá-la em vez de criar outra.
+- Cancelar com alterações não salvas pede confirmação.
+- Na edição, o CNPJ fica bloqueado. Empresas desativadas não podem ser editadas: a rota de edição volta para a ficha com o aviso "Reative a empresa antes de editar".
 
 ### 6.5 Desativar e reativar
 
-- **Uma empresa nunca é excluída da base.** Não existe botão nem função de exclusão.
-- Desativar abre um **modal de confirmação** com o nome da empresa, as consequências e o campo **Motivo** (obrigatório, de 10 a 300 caracteres).
-- Após desativar, a empresa sai da lista padrão (filtro "Ativas"), mantém todo o histórico e mostra na ficha a faixa "Empresa inativa desde dd/mm/aaaa · Motivo".
-- **Reativar** está disponível para quem tem `empresas:D` e volta a situação para Ativa.
+- **Uma empresa nunca é excluída da base.** Não existe botão nem função de exclusão no serviço (há um teste automatizado que garante isso).
+- Desativar abre um **modal de confirmação** com: **Motivo** (obrigatório: Graduou e saiu do parque, Encerrou as atividades, Desistiu do programa, Cadastro duplicado, Outro motivo), **Data de saída** (padrão: hoje) e **Observação** (opcional).
+- A empresa desativada vai para a aba **Desativadas**, mantém dados e histórico e mostra na ficha a faixa "Empresa desativada em dd/mm/aaaa. Motivo: ...".
+- **Reativar** fica disponível para quem tem `empresas:D` e volta a situação para Ativa.
 
-### 6.6 Ficha da empresa (`/empresas/:id`)
+### 6.6 Bases de consulta
 
-- Cabeçalho com sigla, nome fantasia, badges de categoria e situação, e ações conforme o perfil (Editar, Desativar/Reativar, Exportar).
-- Abas: **Visão geral** (dados cadastrais, contato e endereço), **Interações** (linha do tempo; privadas só para quem tem permissão) e **Contatos**.
+| Base | Uso | No sistema real | Nesta fase |
+|---|---|---|---|
+| CNPJ | Botão **Buscar** ao lado do CNPJ preenche razão social, nome fantasia, porte, data de fundação e endereço | API pública da Receita, ex.: BrasilAPI `GET /api/cnpj/v1/{cnpj}` | Simulada (`consultarCnpj`); o CNPJ `11.222.333/0001-81` retorna dados de exemplo |
+| CEP | Botão de busca ao lado do CEP preenche logradouro, bairro, cidade e UF | ViaCEP `GET /ws/{cep}/json/` | Simulada (`consultarCep`) para alguns CEPs de Santa Catarina |
+
+### 6.7 Ficha da empresa (`/empresas/:id`)
+
+- Cabeçalho com sigla, nome, badges de categoria e situação, e ações conforme o perfil (Editar, Exportar, Desativar ou Reativar).
+- Abas: **Visão geral** (dados cadastrais e endereço), **Interações** (linha do tempo; as privadas só aparecem para quem tem permissão; aba bloqueada com cadeado para quem não vê interações) e **Contatos**.
 - Cartão lateral "Seu acesso a esta empresa", com o que o perfil pode fazer.
 
 ## 7. Demais telas
@@ -242,8 +248,8 @@ O projeto segue [Versionamento Semântico](https://semver.org/lang/pt-BR/). Cada
 | Versão | Conteúdo |
 |---|---|
 | `v0.1.0` | Estrutura do projeto, design system, layout base, login, erros 404/403 |
-| `v0.2.0` | Dashboard |
-| `v0.3.0` | Cadastro de empresas: listagem, filtros, ordenação, EmptyView, adicionar, editar, desativar, ficha |
+| `v0.2.0` | Cadastro de empresas: listagem, filtros, ordenação, EmptyView, adicionar, editar, desativar, ficha |
+| `v0.3.0` | Dashboard |
 | `v0.4.0` | Usuários, permissões, relatórios, configurações e perfil |
 | `v1.0.0` | Integração com o back-end (a definir) |
 
@@ -252,7 +258,7 @@ O projeto segue [Versionamento Semântico](https://semver.org/lang/pt-BR/). Cada
 - Back-end, banco de dados e autenticação real (próxima etapa).
 - Módulos Contatos, Oportunidades e Eventos como telas próprias (aparecem no menu como "em breve").
 - Envio real de e-mails e geração real de PDF/Excel (as ações mostram um aviso simulado).
-- Busca de endereço por CEP em serviço externo.
+- Chamadas reais às bases de CNPJ e CEP (as consultas são simuladas, ver 6.6).
 
 ## 11. Critérios de pronto
 
