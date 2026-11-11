@@ -8,7 +8,7 @@ import { useAvisos } from '../../contexts/AvisosContext.jsx';
 import { useSessao } from '../../contexts/SessaoContext.jsx';
 import { BADGE_CATEGORIA, CATEGORIAS, SETORES } from '../../data/opcoesEmpresa.js';
 import { listarEmpresas, reativarEmpresa } from '../../services/empresasService.js';
-import { responsaveisDisponiveis } from '../../services/usuariosService.js';
+import { useResponsaveis } from '../../hooks/useResponsaveis.js';
 import {
   ABAS_SITUACAO,
   FILTROS_PADRAO,
@@ -73,10 +73,13 @@ export default function ListaEmpresas() {
   const [filtros, alterar] = useFiltrosNaUrl();
   const [empresas, setEmpresas] = useState(null);
   const [desativando, setDesativando] = useState(null);
-  const responsaveis = useMemo(() => responsaveisDisponiveis(), []);
+  const responsaveis = useResponsaveis();
   const nomeResponsavel = (id) => responsaveis.find((r) => r.id === id)?.nome ?? '—';
 
-  const carregar = useCallback(() => listarEmpresas().then(setEmpresas), []);
+  const carregar = useCallback(
+    () => listarEmpresas().then(setEmpresas).catch((erro) => avisar(erro.message, 'erro')),
+    [avisar],
+  );
   useEffect(() => {
     carregar();
   }, [carregar]);
@@ -96,9 +99,13 @@ export default function ListaEmpresas() {
   const podeDesativar = pode('empresas', 'D');
 
   async function reativar(empresa) {
-    await reativarEmpresa(empresa.id);
-    avisar(`${nomeExibido(empresa)} foi reativada.`);
-    carregar();
+    try {
+      await reativarEmpresa(empresa.id);
+      avisar(`${nomeExibido(empresa)} foi reativada.`);
+      carregar();
+    } catch (erro) {
+      avisar(erro.message, 'erro');
+    }
   }
 
   function acoes(empresa) {

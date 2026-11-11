@@ -79,8 +79,7 @@ export default function FormularioUsuario() {
     }
     setSalvando(true);
     try {
-      const { senhaTemporaria, primeiroAcesso, ...resto } = dados;
-      await salvarUsuario(resto);
+      await salvarUsuario(dados);
       avisar(editar ? 'Alterações salvas. Valem no próximo acesso.' : `Convite enviado para ${dados.email}.`);
       navegar('/usuarios');
     } catch (erro) {

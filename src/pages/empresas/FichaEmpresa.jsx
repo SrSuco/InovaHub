@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import Icone from '../../components/Icone.jsx';
 import { useMigalhas } from '../../components/layout/LayoutApp.jsx';
@@ -8,7 +8,7 @@ import { INTERACOES_EXEMPLO } from '../../data/interacoes.js';
 import { BADGE_CATEGORIA } from '../../data/opcoesEmpresa.js';
 import { ACOES, badgeDoPerfil } from '../../data/permissoes.js';
 import { obterEmpresa, reativarEmpresa } from '../../services/empresasService.js';
-import { responsaveisDisponiveis } from '../../services/usuariosService.js';
+import { useResponsaveis } from '../../hooks/useResponsaveis.js';
 import { formatarData } from '../../utils/formatacao.js';
 import { nomeExibido } from './consultaEmpresas.js';
 import ModalDesativarEmpresa from './ModalDesativarEmpresa.jsx';
@@ -30,7 +30,7 @@ export default function FichaEmpresa() {
   const [empresa, setEmpresa] = useState(null);
   const [aba, setAba] = useState('geral');
   const [desativando, setDesativando] = useState(null);
-  const responsaveis = useMemo(() => responsaveisDisponiveis(), []);
+  const responsaveis = useResponsaveis();
 
   const carregar = useCallback(
     () =>
@@ -78,9 +78,13 @@ export default function FichaEmpresa() {
   const privadasOcultas = INTERACOES_EXEMPLO.length - interacoes.length;
 
   async function reativar() {
-    await reativarEmpresa(empresa.id);
-    avisar(`${nomeExibido(empresa)} foi reativada.`);
-    carregar();
+    try {
+      await reativarEmpresa(empresa.id);
+      avisar(`${nomeExibido(empresa)} foi reativada.`);
+      carregar();
+    } catch (erro) {
+      avisar(erro.message, 'erro');
+    }
   }
 
   const acoes = [
