@@ -4,6 +4,28 @@ Todas as mudanças relevantes do projeto ficam registradas aqui.
 
 O formato segue o [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/) e o projeto usa [Versionamento Semântico](https://semver.org/lang/pt-BR/).
 
+## [0.5.0] - 2026-11-11
+
+### Adicionado
+
+- Diagramas UML em `docs/uml/`: casos de uso, classes (domínio e aplicação), sequência (login, cadastro e desativação), estados e componentes, com cópias em SVG.
+- Esquema do banco MySQL em `database/schema.sql`, com 18 tabelas, chaves estrangeiras, índices, restrições e a visão `vw_empresas`.
+- Carga inicial em `database/seed.sql` com os perfis, a matriz de permissões, os usuários e as empresas do protótipo.
+- Documentação do banco com diagrama entidade-relacionamento em `docs/banco-de-dados.md`.
+- API em Node.js com Express e mysql2 (`server/`): login com bcrypt e token JWT, rotas de empresas, usuários e permissões, e script `npm run db:criar`.
+- Testes de integração da API contra o MySQL.
+- Cliente HTTP nas telas: com `VITE_API_URL` definida, os dados vêm da API; sem ela, as telas continuam no modo demonstração.
+- Troca de senha e edição do próprio perfil gravadas no banco.
+
+### Alterado
+
+- O responsável no parque passa a ser carregado de forma assíncrona nas telas de empresas.
+- As regras de senha saíram da tela Meu perfil para um módulo próprio, usado também pela API.
+
+### Corrigido
+
+- Erros de permissão, de validação e de conexão devolvidos pela API aparecem nas telas.
+
 ## [0.4.0] - 2026-11-11
 
 ### Adicionado
@@ -61,6 +83,7 @@ O formato segue o [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/) e 
 - Páginas de erro 404 e de acesso não autorizado (403).
 - Guia de contribuição e modelo de pull request.
 
+[0.5.0]: https://github.com/SrSuco/inovahub/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/SrSuco/inovahub/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/SrSuco/inovahub/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/SrSuco/inovahub/compare/v0.1.0...v0.2.0
