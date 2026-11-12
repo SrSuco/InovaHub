@@ -1,0 +1,8 @@
+#!/bin/sh
+# Roda os testes das telas antes de cada commit.
+# Para pular em uma emergência: git commit --no-verify
+echo "pre-commit: rodando npm test..."
+npm test --silent || {
+  echo "pre-commit: os testes falharam. Corrija antes de fazer o commit."
+  exit 1
+}
