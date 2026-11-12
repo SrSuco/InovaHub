@@ -171,7 +171,7 @@ export default function FormularioUsuario() {
                   />
                   <span className="label-text">Acesso ativo</span>
                 </label>
-                <p className="text-xs opacity-60">Último acesso: {dados.ultimoAcesso}</p>
+                <p className="text-xs texto-suave">Último acesso: {dados.ultimoAcesso}</p>
               </div>
             </section>
           ) : (

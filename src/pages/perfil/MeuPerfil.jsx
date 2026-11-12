@@ -105,7 +105,7 @@ export default function MeuPerfil() {
                   </Campo>
                 ))}
               </div>
-              <p className="text-xs opacity-60 mt-1">Use pelo menos 8 caracteres, misturando letras e números.</p>
+              <p className="text-xs texto-suave mt-1">Use pelo menos 8 caracteres, misturando letras e números.</p>
               <div className="flex justify-end mt-3">
                 <button type="submit" className="btn btn-outline btn-sm">Trocar senha</button>
               </div>
@@ -126,7 +126,7 @@ export default function MeuPerfil() {
               {MODULOS.map((m) => {
                 const acoes = ACOES.filter((a) => m.acoes.includes(a.id) && pode(m.id, a.id)).map((a) => a.nome.toLowerCase());
                 return (
-                  <li key={m.id} className={`flex gap-2 ${acoes.length ? '' : 'opacity-50'}`}>
+                  <li key={m.id} className={`flex gap-2 ${acoes.length ? '' : 'texto-suave'}`}>
                     <Icone nome={acoes.length ? 'check' : 'x'} className={`w-4 h-4 mt-0.5 ${acoes.length ? 'text-success' : ''}`} />
                     <span>
                       <b>{m.nome}</b>

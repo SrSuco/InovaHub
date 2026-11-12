@@ -23,7 +23,7 @@ export default function Logo({ tamanho = 'w-9 h-9', texto = 'text-lg', subtitulo
       <Simbolo className={tamanho} inverso={inverso} />
       <span className="leading-tight min-w-0">
         <span className={`block font-display font-extrabold ${texto}`}>InovaHub</span>
-        {subtitulo && <span className="block text-[11px] opacity-60 truncate">{subtitulo}</span>}
+        {subtitulo && <span className="block text-[11px] texto-suave truncate">{subtitulo}</span>}
       </span>
     </span>
   );

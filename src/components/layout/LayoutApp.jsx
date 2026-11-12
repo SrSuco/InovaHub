@@ -49,7 +49,7 @@ export default function LayoutApp() {
             )}
             <Outlet />
           </main>
-          <footer className="gutter py-4 text-xs opacity-60 flex flex-wrap gap-2 justify-between border-t border-base-300 bg-base-100">
+          <footer className="gutter py-4 text-xs texto-suave flex flex-wrap gap-2 justify-between border-t border-base-300 bg-base-100">
             <span>InovaHub v{__VERSAO__}</span>
             <span>InovaParq · Parque de Inovação da UNIVILLE · Joinville/SC</span>
           </footer>

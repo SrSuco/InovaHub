@@ -65,7 +65,7 @@ export default function Relatorios() {
             <div className="flex flex-wrap items-start justify-between gap-3">
               <div>
                 <h2 className="card-title text-base">{selecionado.titulo}</h2>
-                <p className="text-xs opacity-60">Prévia · {periodo} · {total} empresas ativas</p>
+                <p className="text-xs texto-suave">Prévia · {periodo} · {total} empresas ativas</p>
               </div>
               {pode('relatorios', 'P') && (
                 <div className="flex gap-2">

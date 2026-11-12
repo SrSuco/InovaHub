@@ -32,7 +32,7 @@ function Cartao({ titulo, legenda, acao, className = '', children }) {
       <div className="card-body p-5">
         <div className="flex flex-wrap items-baseline justify-between gap-2">
           <h2 className="card-title text-base">{titulo}</h2>
-          {legenda && <span className="text-xs opacity-60">{legenda}</span>}
+          {legenda && <span className="text-xs texto-suave">{legenda}</span>}
           {acao}
         </div>
         {children}
@@ -116,7 +116,7 @@ export default function Dashboard() {
                       <Link to={`/empresas/${e.id}`} className="flex items-center gap-3 py-2.5 hover:opacity-80">
                         <div className="flex-1 min-w-0">
                           <div className="text-sm font-medium truncate">{nomeExibido(e)}</div>
-                          <div className="text-xs opacity-60">{e.categoria}</div>
+                          <div className="text-xs texto-suave">{e.categoria}</div>
                         </div>
                         <span className={`badge badge-sm tabnum ${e.diasSemInteracao > 60 ? 'badge-error' : 'badge-warning'}`}>{e.diasSemInteracao} dias</span>
                       </Link>
@@ -134,7 +134,7 @@ export default function Dashboard() {
                     <input type="checkbox" className="checkbox checkbox-sm checkbox-primary mt-0.5" aria-label={`Concluir: ${titulo}`} />
                     <div className="flex-1 min-w-0">
                       <div className="text-sm font-medium">{titulo}</div>
-                      <div className="text-xs opacity-60">{empresa}</div>
+                      <div className="text-xs texto-suave">{empresa}</div>
                     </div>
                     <span className="text-xs opacity-70 whitespace-nowrap">{prazo}</span>
                   </li>

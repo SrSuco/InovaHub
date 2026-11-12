@@ -103,7 +103,7 @@ export default function Configuracoes() {
               </div>
             </fieldset>
             <div className="flex flex-wrap gap-2 items-center">
-              <span className="text-xs opacity-60">Prévia:</span>
+              <span className="text-xs texto-suave">Prévia:</span>
               <button type="button" className="btn btn-primary btn-sm">Botão principal</button>
               <span className="badge badge-primary">Incubada</span>
               <a href="#previa" className="link link-primary text-sm" onClick={(e) => e.preventDefault()}>Link</a>

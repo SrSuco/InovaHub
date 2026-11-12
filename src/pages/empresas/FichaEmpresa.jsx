@@ -226,7 +226,7 @@ export default function FichaEmpresa() {
                             </span>
                           )}
                         </div>
-                        <div className="text-xs opacity-60">
+                        <div className="text-xs texto-suave">
                           {i.quando} · {i.autor}
                         </div>
                         <p className="text-sm mt-1 opacity-90">{i.texto}</p>
@@ -255,7 +255,7 @@ export default function FichaEmpresa() {
                     <div className="font-medium text-sm">
                       {empresa.contatoNome} <span className="badge badge-ghost badge-sm ml-1">principal</span>
                     </div>
-                    <div className="text-xs opacity-60">{empresa.contatoCargo || 'Cargo não informado'}</div>
+                    <div className="text-xs texto-suave">{empresa.contatoCargo || 'Cargo não informado'}</div>
                   </div>
                   <div className="flex flex-col text-sm gap-1">
                     <a href={`mailto:${empresa.email}`} className="link link-hover flex items-center gap-2">
@@ -279,18 +279,18 @@ export default function FichaEmpresa() {
               <Icone nome="shieldok" className="w-5 h-5 text-primary" />
               Seu acesso a esta empresa
             </h2>
-            <div className="text-sm opacity-80">
-              Perfil <span className={`badge badge-sm ${badgeDoPerfil(perfil)}`}>{perfil}</span>
+            <div className="text-sm">
+              <span className="texto-suave">Perfil</span> <span className={`badge badge-sm ${badgeDoPerfil(perfil)}`}>{perfil}</span>
             </div>
             <ul className="flex flex-col gap-1.5">
               {ACOES.map((a) => (
-                <li key={a.id} className={`flex items-center gap-2 text-sm ${pode('empresas', a.id) ? '' : 'opacity-50'}`}>
+                <li key={a.id} className={`flex items-center gap-2 text-sm ${pode('empresas', a.id) ? '' : 'texto-suave'}`}>
                   <Icone nome={pode('empresas', a.id) ? 'check' : 'x'} className={`w-4 h-4 ${pode('empresas', a.id) ? 'text-success' : ''}`} />
                   {a.nome}
                 </li>
               ))}
             </ul>
-            <p className="text-xs opacity-60">As ações disponíveis seguem a matriz de permissões do seu perfil.</p>
+            <p className="text-xs texto-suave">As ações disponíveis seguem a matriz de permissões do seu perfil.</p>
           </div>
         </aside>
       </div>

@@ -144,7 +144,7 @@ export default function ListaUsuarios() {
         {[
           ['Ativos', conta('Ativo'), 'text-success'],
           ['Convites pendentes', conta('Convite pendente'), 'text-warning'],
-          ['Desativados', conta('Desativado'), 'opacity-60'],
+          ['Desativados', conta('Desativado'), 'texto-suave'],
           ['Perfis de acesso', PERFIS.length, 'text-primary'],
         ].map(([rotulo, valor, tom]) => (
           <div key={rotulo} className="cartao">
@@ -199,13 +199,13 @@ export default function ListaUsuarios() {
                   </thead>
                   <tbody>
                     {filtrados.map((u) => (
-                      <tr key={u.id} className={`hover ${u.situacao === 'Desativado' ? 'opacity-60' : ''}`}>
+                      <tr key={u.id} className={`hover ${u.situacao === 'Desativado' ? 'linha-desativada' : ''}`}>
                         <td>
                           <div className="flex items-center gap-3">
                             <Avatar nome={u.nome} />
                             <div className="min-w-0">
                               <div className="font-semibold">{u.nome}</div>
-                              <div className="text-xs opacity-60 truncate">{u.email}</div>
+                              <div className="text-xs texto-suave truncate">{u.email}</div>
                             </div>
                           </div>
                         </td>
@@ -221,16 +221,16 @@ export default function ListaUsuarios() {
               </div>
               <ul className="md:hidden divide-y divide-base-300">
                 {filtrados.map((u) => (
-                  <li key={u.id} className={`py-3 flex items-start gap-3 ${u.situacao === 'Desativado' ? 'opacity-60' : ''}`}>
+                  <li key={u.id} className={`py-3 flex items-start gap-3 ${u.situacao === 'Desativado' ? 'linha-desativada' : ''}`}>
                     <Avatar nome={u.nome} tamanho="w-10" />
                     <div className="flex-1 min-w-0">
                       <div className="font-semibold truncate">{u.nome}</div>
-                      <div className="text-xs opacity-60 truncate">{u.email}</div>
+                      <div className="text-xs texto-suave truncate">{u.email}</div>
                       <div className="flex flex-wrap gap-1 mt-2">
                         <span className={`badge badge-sm ${badgeDoPerfil(u.perfil)}`}>{u.perfil}</span>
                         <span className={`badge badge-sm ${badgeSituacao(u.situacao)}`}>{u.situacao}</span>
                       </div>
-                      <div className="text-xs opacity-60 mt-1">Último acesso: {u.ultimoAcesso}</div>
+                      <div className="text-xs texto-suave mt-1">Último acesso: {u.ultimoAcesso}</div>
                     </div>
                     {acoes(u)}
                   </li>
