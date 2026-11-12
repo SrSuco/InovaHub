@@ -1,7 +1,7 @@
 {
   "name": "inovahub-api",
   "private": true,
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "API do InovaHub CRM, com Express e MySQL",
   "type": "module",
   "main": "src/index.js",
