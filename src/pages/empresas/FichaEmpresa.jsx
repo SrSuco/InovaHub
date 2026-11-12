@@ -13,10 +13,10 @@ import { formatarData } from '../../utils/formatacao.js';
 import { nomeExibido } from './consultaEmpresas.js';
 import ModalDesativarEmpresa from './ModalDesativarEmpresa.jsx';
 
-function Dado({ rotulo, valor }) {
+function Dado({ rotulo, valor, className = '' }) {
   return (
-    <div className="min-w-0">
-      <dt className="text-xs opacity-60">{rotulo}</dt>
+    <div className={`min-w-0 ${className}`}>
+      <dt className="text-xs texto-suave">{rotulo}</dt>
       <dd className="text-sm font-medium break-words">{valor || '—'}</dd>
     </div>
   );
@@ -196,13 +196,9 @@ export default function FichaEmpresa() {
                     valor={empresa.site && <a className="link link-primary" href={empresa.site} target="_blank" rel="noreferrer">{empresa.site}</a>}
                   />
                   <Dado rotulo="Cadastrada em" valor={formatarData(empresa.criadoEm)} />
-                  <div className="sm:col-span-2">
-                    <Dado rotulo="Endereço" valor={endereco} />
-                  </div>
+                  <Dado rotulo="Endereço" valor={endereco} className="sm:col-span-2" />
                   {empresa.observacoes && (
-                    <div className="sm:col-span-2">
-                      <Dado rotulo="Observações" valor={empresa.observacoes} />
-                    </div>
+                    <Dado rotulo="Observações" valor={empresa.observacoes} className="sm:col-span-2" />
                   )}
                 </dl>
               </>
