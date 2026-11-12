@@ -29,7 +29,7 @@ export default function MenuLateral({ aoNavegar }) {
                 {grupo.itens.map((item) =>
                   item.emBreve ? (
                     <li key={item.nome} className="disabled">
-                      <span className="gap-3">
+                      <span className="gap-3" aria-disabled="true">
                         <Icone nome={item.icone} />
                         {item.nome}
                         <span className="badge badge-ghost badge-sm ml-auto">em breve</span>
