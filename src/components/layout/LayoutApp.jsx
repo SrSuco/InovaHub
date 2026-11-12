@@ -55,7 +55,9 @@ export default function LayoutApp() {
           </footer>
         </div>
         <div className="drawer-side z-30">
-          <label htmlFor={ID_GAVETA} aria-label="Fechar menu" className="drawer-overlay" />
+          <label htmlFor={ID_GAVETA} className="drawer-overlay">
+            <span className="sr-only">Fechar menu</span>
+          </label>
           <MenuLateral aoNavegar={() => setGavetaAberta(false)} />
         </div>
       </div>
