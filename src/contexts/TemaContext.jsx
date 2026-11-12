@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { gravar, ler } from '../services/armazenamento.js';
-import { hexParaOklch } from '../utils/cores.js';
+import { variaveisDestaque } from '../utils/cores.js';
 
 const TemaContext = createContext(null);
 const consultaEscuro = () => window.matchMedia?.('(prefers-color-scheme: dark)');
@@ -27,10 +27,9 @@ export function TemaProvider({ children }) {
   useEffect(() => {
     const raiz = document.documentElement;
     raiz.setAttribute('data-theme', escuro ? 'inovahub-escuro' : 'inovahub');
-    let { L, C, H } = hexParaOklch(destaque);
-    if (escuro) L = Math.max(L, 0.62);
-    raiz.style.setProperty('--p', `${(L * 100).toFixed(2)}% ${C.toFixed(4)} ${H.toFixed(2)}`);
-    raiz.style.setProperty('--pc', L > 0.7 ? `18% 0.02 ${H.toFixed(0)}` : '99% 0 0');
+    const { p, pc } = variaveisDestaque(destaque, escuro);
+    raiz.style.setProperty('--p', p);
+    raiz.style.setProperty('--pc', pc);
   }, [escuro, destaque]);
 
   const valor = useMemo(
