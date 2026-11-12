@@ -10,7 +10,8 @@
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest",
-    "lighthouse": "node scripts/lighthouse.mjs"
+    "lighthouse": "node scripts/lighthouse.mjs",
+    "prepare": "node scripts/instalar-hooks.mjs"
   },
   "dependencies": {
     "chart.js": "4.4.7",
