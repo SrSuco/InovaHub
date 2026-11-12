@@ -20,7 +20,7 @@ export default function Campo({ id, rotulo, obrigatorio, erro, ajuda, className 
       </label>
       {children({ id, 'aria-invalid': Boolean(erro), 'aria-describedby': descritoPor, 'aria-required': obrigatorio || undefined })}
       {ajuda && !erro && (
-        <span id={idAjuda} className="text-xs opacity-60 mt-1">
+        <span id={idAjuda} className="text-xs texto-suave mt-1">
           {ajuda}
         </span>
       )}

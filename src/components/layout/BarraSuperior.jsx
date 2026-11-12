@@ -9,7 +9,8 @@ export default function BarraSuperior({ migalhas, idGaveta }) {
 
   return (
     <header className="navbar bg-base-100 border-b border-base-300 gutter gap-2 min-h-16 sticky top-0 z-20">
-      <label htmlFor={idGaveta} className="btn btn-ghost btn-square btn-sm lg:hidden" aria-label="Abrir menu">
+      <label htmlFor={idGaveta} className="btn btn-ghost btn-square btn-sm lg:hidden">
+        <span className="sr-only">Abrir menu</span>
         <Icone nome="menu" />
       </label>
 

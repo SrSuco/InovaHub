@@ -185,7 +185,7 @@ export default function ListaEmpresas() {
       <>
         <ul className="md:hidden divide-y divide-base-300">
           {resultado.itens.map((e) => (
-            <li key={e.id} className={`py-3 flex items-start gap-3 ${e.situacao === 'Desativada' ? 'opacity-60' : ''}`}>
+            <li key={e.id} className={`py-3 flex items-start gap-3 ${e.situacao === 'Desativada' ? 'linha-desativada' : ''}`}>
               <div className="avatar placeholder">
                 <div className="bg-base-300 w-10 rounded-lg">
                   <span className="text-xs font-semibold">{sigla(e)}</span>
@@ -195,7 +195,7 @@ export default function ListaEmpresas() {
                 <Link to={`/empresas/${e.id}`} className="font-semibold hover:underline">
                   {nomeExibido(e)}
                 </Link>
-                <div className="text-xs opacity-60 truncate">{e.cnpj}</div>
+                <div className="text-xs texto-suave truncate">{e.cnpj}</div>
                 <div className="flex flex-wrap items-center gap-2 mt-2">
                   <span className={`badge badge-sm ${BADGE_CATEGORIA[e.categoria]}`}>{e.categoria}</span>
                   {badgeSituacao(e)}
@@ -223,7 +223,7 @@ export default function ListaEmpresas() {
             </thead>
             <tbody>
               {resultado.itens.map((e) => (
-                <tr key={e.id} className={`hover ${e.situacao === 'Desativada' ? 'opacity-60' : ''}`}>
+                <tr key={e.id} className={`hover ${e.situacao === 'Desativada' ? 'linha-desativada' : ''}`}>
                   <td>
                     <div className="flex items-center gap-3">
                       <div className="avatar placeholder">
@@ -235,14 +235,14 @@ export default function ListaEmpresas() {
                         <Link to={`/empresas/${e.id}`} className="font-semibold hover:underline">
                           {nomeExibido(e)}
                         </Link>
-                        <div className="text-xs opacity-60">{e.razaoSocial}</div>
+                        <div className="text-xs texto-suave">{e.razaoSocial}</div>
                       </div>
                     </div>
                   </td>
                   <td className="hidden xl:table-cell tabnum whitespace-nowrap">{e.cnpj}</td>
                   <td>
                     <div>{e.contatoNome}</div>
-                    <div className="text-xs opacity-60 whitespace-nowrap">{e.telefone}</div>
+                    <div className="text-xs texto-suave whitespace-nowrap">{e.telefone}</div>
                   </td>
                   <td className="hidden lg:table-cell">{e.email}</td>
                   <td>
@@ -319,7 +319,7 @@ export default function ListaEmpresas() {
                         className={`tab ${filtros.situacao === aba.id ? 'tab-active' : ''}`}
                         onClick={() => alterar({ situacao: aba.id })}
                       >
-                        {aba.rotulo} <span className="ml-1 opacity-70 tabnum">{contagem[aba.id]}</span>
+                        {aba.rotulo} <span className="ml-1 tabnum">{contagem[aba.id]}</span>
                       </button>
                     ))}
                   </div>
