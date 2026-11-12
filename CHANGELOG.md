@@ -4,6 +4,35 @@ Todas as mudanças relevantes do projeto ficam registradas aqui.
 
 O formato segue o [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/) e o projeto usa [Versionamento Semântico](https://semver.org/lang/pt-BR/).
 
+## [0.5.1] - 2026-11-12
+
+### Adicionado
+
+- Comando `npm run lighthouse`, que roda o Google Lighthouse nas telas principais no celular e no computador e falha se alguma categoria ficar abaixo de 95.
+- Hooks do Git em `.githooks/`: `npm test` antes de cada commit e merge, e `npm test` com `npm run build` antes de cada push. São ativados pelo `npm install`.
+- CI no GitHub Actions com testes das telas, build, testes da API contra MySQL e Lighthouse.
+- Testes que conferem no código as regras de contraste, imagens e ARIA, e o contraste calculado para as cores de destaque.
+- `robots.txt`.
+
+### Alterado
+
+- As fontes Inter e Plus Jakarta Sans passam a ser servidas junto com o site (Fontsource), sem depender do Google Fonts.
+- Os gráficos do dashboard carregam em um arquivo separado, só quando aparecem na tela.
+
+### Corrigido
+
+- Desempenho do dashboard no celular no primeiro acesso (nota 78 para 98 no Lighthouse).
+- Rodapé que se deslocava enquanto a listagem de empresas carregava.
+- Testes da API falhavam quando as dependências das telas não estavam instaladas.
+- Textos secundários, cabeçalhos de tabela e títulos do menu abaixo do contraste mínimo de 4,5:1.
+- Linhas de empresas e usuários desativados somavam opacidades e deixavam o texto ilegível.
+- Cores de aviso, erro e informação do modo claro com pouco contraste.
+- Cor de destaque com pouco contraste no modo escuro e nas cores Azul e Laranja; agora ela é ajustada automaticamente.
+- Botões de abrir e fechar o menu no celular com `aria-label` em elemento `label`.
+- Ordem dos títulos nos modais e lista de definições inválida na ficha da empresa.
+- Logos distorcidos na tela de login no celular.
+- Rolagem lateral no seletor de modo das configurações em telas de 320 px.
+
 ## [0.5.0] - 2026-11-11
 
 ### Adicionado
@@ -83,6 +112,7 @@ O formato segue o [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/) e 
 - Páginas de erro 404 e de acesso não autorizado (403).
 - Guia de contribuição e modelo de pull request.
 
+[0.5.1]: https://github.com/SrSuco/inovahub/compare/v0.5.0...v0.5.1
 [0.5.0]: https://github.com/SrSuco/inovahub/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/SrSuco/inovahub/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/SrSuco/inovahub/compare/v0.2.0...v0.3.0
