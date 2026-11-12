@@ -38,7 +38,7 @@ export default function LayoutApp() {
         />
         <div className="drawer-content flex flex-col min-w-0 min-h-screen bg-base-200">
           <BarraSuperior migalhas={migalhas} idGaveta={ID_GAVETA} />
-          <main className="gutter py-6 flex-1 w-full max-w-[1440px] mx-auto">
+          <main className="gutter py-6 flex-1 w-full max-w-[1440px] mx-auto min-h-[calc(100dvh-4rem)]">
             {somenteLeitura && (
               <div role="status" className="alert text-sm mb-5">
                 <Icone nome="lock" />
