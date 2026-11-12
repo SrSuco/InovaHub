@@ -43,6 +43,22 @@
     white-space: nowrap;
   }
 
+  /* Texto secundário com contraste mínimo de 4,5:1 (WCAG AA) nos dois temas. */
+  .texto-suave {
+    color: oklch(var(--bc) / 0.72);
+  }
+
+  /* Linhas de registros desativados: texto atenuado sem usar opacidade,
+     para que o texto secundário dentro delas continue legível. */
+  .linha-desativada {
+    color: oklch(var(--bc) / 0.72);
+  }
+
+  .table :where(thead, tfoot),
+  .menu .menu-title {
+    color: oklch(var(--bc) / 0.72);
+  }
+
   .tabnum {
     font-variant-numeric: tabular-nums;
   }

@@ -87,10 +87,54 @@ git push origin main develop --tags
 
 Todo o histórico de versões fica no [CHANGELOG.md](CHANGELOG.md).
 
+## Testes automáticos
+
+Os testes rodam sozinhos em dois momentos:
+
+**No seu computador (hooks do Git).** O `npm install` ativa os hooks da pasta [`.githooks/`](.githooks):
+
+| Hook | Quando roda | O que faz |
+|---|---|---|
+| `pre-commit` | A cada `git commit` | `npm test` |
+| `pre-merge-commit` | A cada `git merge` que gera commit de merge | `npm test` |
+| `pre-push` | A cada `git push` | `npm test` e `npm run build` |
+
+Se algum falhar, o commit, o merge ou o push é cancelado. Se os hooks não estiverem ativos (por exemplo, num clone antigo), rode `git config core.hooksPath .githooks`. Em uma emergência dá para pular com `--no-verify`, mas a CI vai conferir do mesmo jeito.
+
+**No GitHub (CI).** O workflow [`.github/workflows/ci.yml`](.github/workflows/ci.yml) roda em todo push e em todo pull request para `develop` e `main`:
+
+- **Telas:** `npm test` e `npm run build`.
+- **API:** `cd server && npm test` contra um MySQL 8 temporário.
+- **Lighthouse:** `npm run lighthouse`, que falha se alguma tela ficar abaixo de 95 em desempenho, acessibilidade, boas práticas ou SEO, no celular ou no computador. Os relatórios ficam anexados à execução.
+
+Para exigir a CI antes do merge, ative em *Settings > Branches* a regra de proteção da `develop` e da `main` com os três jobs como verificações obrigatórias.
+
+### Lighthouse no seu computador
+
+```bash
+npm run build
+npm run lighthouse                          # modo claro
+LIGHTHOUSE_TEMA=escuro npm run lighthouse   # modo escuro
+LIGHTHOUSE_TELAS=login,empresas npm run lighthouse
+```
+
+Precisa do Google Chrome instalado (ou indique outro com `CHROME_PATH`). Os relatórios em HTML ficam em `relatorios-lighthouse/`.
+
+### Regras que os testes conferem
+
+O arquivo [`src/acessibilidade.test.js`](src/acessibilidade.test.js) evita que voltem os problemas que o Lighthouse já apontou:
+
+- textos secundários usam a classe `texto-suave`, nunca `opacity-60` ou menos;
+- linhas de registros desativados usam `linha-desativada`, nunca opacidade na linha inteira;
+- `label` não recebe `aria-label` (use um `span` com `sr-only` dentro);
+- toda imagem tem `alt`, `width` e `height`;
+- as cores de aviso, erro, informação e sucesso têm contraste mínimo de 4,5:1.
+
 ## Antes de abrir um Pull Request
 
 - [ ] `npm test` passa.
 - [ ] `npm run build` termina sem erros.
+- [ ] `npm run lighthouse` passa (nota 95 ou mais em todas as telas).
 - [ ] A tela funciona no celular (375 px) e no computador, nos modos claro e escuro.
 - [ ] As permissões dos quatro perfis foram conferidas.
 - [ ] README e CHANGELOG atualizados, se a mudança for visível para quem usa.

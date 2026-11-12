@@ -141,19 +141,19 @@ export default function Login() {
             </button>
           </form>
 
-          <div className="divider text-xs opacity-60 my-8">apoio</div>
+          <div className="divider text-xs texto-suave my-8">apoio</div>
           <div className="flex items-center justify-between gap-4">
-            <span className="flex items-center gap-2">
+            <span className="flex items-center gap-2 shrink-0">
               <span className="bg-white rounded-lg p-1 inline-flex">
-                <img src={logoInovaparq} alt="Logo InovaParq" className="h-8 w-8 rounded" />
+                <img src={logoInovaparq} alt="Logo InovaParq" width="32" height="32" className="h-8 w-8 rounded" />
               </span>
               <span className="bg-white rounded-lg p-1 inline-flex">
-                <img src={logoUniville} alt="Logo UNIVILLE" className="h-8" />
+                <img src={logoUniville} alt="Logo UNIVILLE" width="31" height="28" className="h-7 w-auto my-0.5" />
               </span>
             </span>
-            <span className="text-xs opacity-60 text-right">Problemas de acesso? Fale com a equipe do InovaParq.</span>
+            <span className="text-xs texto-suave text-right">Problemas de acesso? Fale com a equipe do InovaParq.</span>
           </div>
-          <p className="text-xs opacity-60 mt-6">
+          <p className="text-xs texto-suave mt-6">
             Ambiente de demonstração: use <b>admin</b>, <b>gerencia</b>, <b>analista</b> ou <b>consulta</b> com a senha <b>inovahub</b>.
           </p>
         </div>

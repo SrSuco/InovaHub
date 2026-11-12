@@ -29,7 +29,7 @@ export default function MenuLateral({ aoNavegar }) {
                 {grupo.itens.map((item) =>
                   item.emBreve ? (
                     <li key={item.nome} className="disabled">
-                      <span className="gap-3">
+                      <span className="gap-3" aria-disabled="true">
                         <Icone nome={item.icone} />
                         {item.nome}
                         <span className="badge badge-ghost badge-sm ml-auto">em breve</span>
@@ -60,7 +60,7 @@ export default function MenuLateral({ aoNavegar }) {
           </li>
         </ul>
         {ocultos > 0 && (
-          <p className="px-7 pb-3 text-xs opacity-60 flex items-center gap-2">
+          <p className="px-7 pb-3 text-xs texto-suave flex items-center gap-2">
             <Icone nome="eyeoff" className="w-4 h-4" />
             {ocultos} {ocultos > 1 ? 'itens ocultos' : 'item oculto'} pelo perfil {perfil}
           </p>
@@ -76,7 +76,7 @@ export default function MenuLateral({ aoNavegar }) {
           </div>
           <div className="min-w-0 flex-1">
             <div className="text-sm font-semibold truncate">{usuario.nome}</div>
-            <div className="text-xs opacity-60">{perfil}</div>
+            <div className="text-xs texto-suave">{perfil}</div>
           </div>
           <button type="button" className="btn btn-ghost btn-sm btn-square" title="Sair" aria-label="Sair do sistema" onClick={sair}>
             <Icone nome="logout" className="w-4 h-4" />

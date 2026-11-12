@@ -1,0 +1,7 @@
+#!/bin/sh
+# Antes de enviar para o GitHub, roda os testes e confere se o build passa.
+echo "pre-push: rodando npm test e npm run build..."
+npm test --silent && npm run build --silent || {
+  echo "pre-push: testes ou build falharam. O envio foi cancelado."
+  exit 1
+}

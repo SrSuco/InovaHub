@@ -12,8 +12,8 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Inter', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'sans-serif'],
-        display: ['"Plus Jakarta Sans"', 'Inter', 'system-ui', 'sans-serif'],
+        sans: ['"Inter Variable"', 'Inter', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'sans-serif'],
+        display: ['"Plus Jakarta Sans Variable"', '"Plus Jakarta Sans"', '"Inter Variable"', 'system-ui', 'sans-serif'],
       },
     },
   },
@@ -35,10 +35,14 @@ export default {
           'base-200': '#f6f3f7',
           'base-300': '#e9e3ec',
           'base-content': '#221b26',
-          info: '#2563eb',
+          info: '#1d4ed8',
+          'info-content': '#ffffff',
           success: '#15803d',
-          warning: '#d97706',
-          error: '#dc2626',
+          'success-content': '#ffffff',
+          warning: '#b45309',
+          'warning-content': '#ffffff',
+          error: '#b91c1c',
+          'error-content': '#ffffff',
           ...forma,
         },
       },

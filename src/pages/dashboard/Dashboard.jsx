@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { Suspense, lazy, useEffect, useMemo, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Icone from '../../components/Icone.jsx';
 import CabecalhoPagina from '../../components/layout/CabecalhoPagina.jsx';
@@ -6,8 +6,40 @@ import { useMigalhas } from '../../components/layout/LayoutApp.jsx';
 import { useSessao } from '../../contexts/SessaoContext.jsx';
 import { listarEmpresas } from '../../services/empresasService.js';
 import { nomeExibido } from '../empresas/consultaEmpresas.js';
-import { GraficoBarras, GraficoLinhas, GraficoRosca } from './Graficos.jsx';
 import { INTERACOES_POR_MES, calcularIndicadores, contarPor } from './indicadores.js';
+
+// Os gráficos (Chart.js) carregam depois do resto da tela e só quando
+// aparecem na área visível, para não atrasar a primeira exibição no celular.
+const carregarGraficos = () => import('./Graficos.jsx');
+const GraficoLinhasAdiado = lazy(() => carregarGraficos().then((m) => ({ default: m.GraficoLinhas })));
+const GraficoRoscaAdiado = lazy(() => carregarGraficos().then((m) => ({ default: m.GraficoRosca })));
+const GraficoBarrasAdiado = lazy(() => carregarGraficos().then((m) => ({ default: m.GraficoBarras })));
+
+/** Reserva a altura do gráfico até ele ficar visível e carregar, sem deslocar a tela. */
+function Grafico({ componente: Componente, ...props }) {
+  const espaco = useRef(null);
+  const [visivel, setVisivel] = useState(() => typeof IntersectionObserver === 'undefined');
+
+  useEffect(() => {
+    if (visivel) return undefined;
+    const observador = new IntersectionObserver(
+      ([entrada]) => {
+        if (entrada.isIntersecting) setVisivel(true);
+      },
+      { rootMargin: '200px' },
+    );
+    observador.observe(espaco.current);
+    return () => observador.disconnect();
+  }, [visivel]);
+
+  const reserva = <div ref={espaco} className="h-60" />;
+  if (!visivel) return reserva;
+  return (
+    <Suspense fallback={reserva}>
+      <Componente {...props} />
+    </Suspense>
+  );
+}
 
 function Indicador({ titulo, valor, detalhe, icone, tom = 'text-primary' }) {
   return (
@@ -32,7 +64,7 @@ function Cartao({ titulo, legenda, acao, className = '', children }) {
       <div className="card-body p-5">
         <div className="flex flex-wrap items-baseline justify-between gap-2">
           <h2 className="card-title text-base">{titulo}</h2>
-          {legenda && <span className="text-xs opacity-60">{legenda}</span>}
+          {legenda && <span className="text-xs texto-suave">{legenda}</span>}
           {acao}
         </div>
         {children}
@@ -90,7 +122,8 @@ export default function Dashboard() {
 
           <div className="grid gap-4 mt-4 grid-cols-1 xl:grid-cols-3">
             <Cartao titulo="Interações registradas por mês" legenda="reuniões e mentorias (dados de exemplo)" className="xl:col-span-2">
-              <GraficoLinhas
+              <Grafico
+                componente={GraficoLinhasAdiado}
                 meses={INTERACOES_POR_MES.meses}
                 series={[
                   { nome: 'Reuniões', valores: INTERACOES_POR_MES.reunioes },
@@ -100,13 +133,13 @@ export default function Dashboard() {
               />
             </Cartao>
             <Cartao titulo="Empresas por categoria">
-              <GraficoRosca itens={contarPor(empresas, 'categoria')} rotulo="Gráfico de rosca: empresas ativas por categoria" />
+              <Grafico componente={GraficoRoscaAdiado} itens={contarPor(empresas, 'categoria')} rotulo="Gráfico de rosca: empresas ativas por categoria" />
             </Cartao>
           </div>
 
           <div className="grid gap-4 mt-4 grid-cols-1 xl:grid-cols-3">
             <Cartao titulo="Empresas por setor">
-              <GraficoBarras itens={contarPor(empresas, 'setor')} rotulo="Gráfico de barras: empresas ativas por setor" />
+              <Grafico componente={GraficoBarrasAdiado} itens={contarPor(empresas, 'setor')} rotulo="Gráfico de barras: empresas ativas por setor" />
             </Cartao>
             <Cartao titulo="Sem acompanhamento" acao={<Link to="/empresas?ordem=ultima&dir=desc" className="link link-primary text-xs">ver todas</Link>}>
               {indicadores.semAcompanhamento.length ? (
@@ -116,7 +149,7 @@ export default function Dashboard() {
                       <Link to={`/empresas/${e.id}`} className="flex items-center gap-3 py-2.5 hover:opacity-80">
                         <div className="flex-1 min-w-0">
                           <div className="text-sm font-medium truncate">{nomeExibido(e)}</div>
-                          <div className="text-xs opacity-60">{e.categoria}</div>
+                          <div className="text-xs texto-suave">{e.categoria}</div>
                         </div>
                         <span className={`badge badge-sm tabnum ${e.diasSemInteracao > 60 ? 'badge-error' : 'badge-warning'}`}>{e.diasSemInteracao} dias</span>
                       </Link>
@@ -134,7 +167,7 @@ export default function Dashboard() {
                     <input type="checkbox" className="checkbox checkbox-sm checkbox-primary mt-0.5" aria-label={`Concluir: ${titulo}`} />
                     <div className="flex-1 min-w-0">
                       <div className="text-sm font-medium">{titulo}</div>
-                      <div className="text-xs opacity-60">{empresa}</div>
+                      <div className="text-xs texto-suave">{empresa}</div>
                     </div>
                     <span className="text-xs opacity-70 whitespace-nowrap">{prazo}</span>
                   </li>

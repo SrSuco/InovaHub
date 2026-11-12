@@ -68,14 +68,14 @@ export default function Configuracoes() {
             <p className="text-xs opacity-70 -mt-2">Preferências deste navegador. Não afetam os outros usuários.</p>
             <fieldset>
               <legend className="text-sm font-medium mb-2">Modo</legend>
-              <div className="join">
+              <div className="join w-full sm:w-auto">
                 {[
                   ['sistema', 'Automático', 'compass'],
                   ['claro', 'Claro', 'sun'],
                   ['escuro', 'Escuro', 'moon'],
                 ].map(([valor, rotulo, icone]) => (
-                  <button key={valor} type="button" className={`join-item btn btn-sm ${modo === valor ? 'btn-active btn-primary' : ''}`} aria-pressed={modo === valor} onClick={() => definirModo(valor)}>
-                    <Icone nome={icone} className="w-4 h-4" />
+                  <button key={valor} type="button" className={`join-item btn btn-sm flex-1 sm:flex-none px-2 sm:px-3 ${modo === valor ? 'btn-active btn-primary' : ''}`} aria-pressed={modo === valor} onClick={() => definirModo(valor)}>
+                    <Icone nome={icone} className="w-4 h-4 hidden min-[360px]:block" />
                     {rotulo}
                   </button>
                 ))}
@@ -103,7 +103,7 @@ export default function Configuracoes() {
               </div>
             </fieldset>
             <div className="flex flex-wrap gap-2 items-center">
-              <span className="text-xs opacity-60">Prévia:</span>
+              <span className="text-xs texto-suave">Prévia:</span>
               <button type="button" className="btn btn-primary btn-sm">Botão principal</button>
               <span className="badge badge-primary">Incubada</span>
               <a href="#previa" className="link link-primary text-sm" onClick={(e) => e.preventDefault()}>Link</a>

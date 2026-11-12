@@ -6,10 +6,10 @@ import { AvisosProvider } from './contexts/AvisosContext.jsx';
 import { SessaoProvider } from './contexts/SessaoContext.jsx';
 import { TemaProvider } from './contexts/TemaContext.jsx';
 import Login from './pages/autenticacao/Login.jsx';
+import Dashboard from './pages/dashboard/Dashboard.jsx';
 import AcessoNegado from './pages/erros/AcessoNegado.jsx';
 import NaoEncontrada from './pages/erros/NaoEncontrada.jsx';
 
-const Dashboard = lazy(() => import('./pages/dashboard/Dashboard.jsx'));
 const ListaEmpresas = lazy(() => import('./pages/empresas/ListaEmpresas.jsx'));
 const FormularioEmpresa = lazy(() => import('./pages/empresas/FormularioEmpresa.jsx'));
 const FichaEmpresa = lazy(() => import('./pages/empresas/FichaEmpresa.jsx'));

@@ -38,7 +38,7 @@ export default function LayoutApp() {
         />
         <div className="drawer-content flex flex-col min-w-0 min-h-screen bg-base-200">
           <BarraSuperior migalhas={migalhas} idGaveta={ID_GAVETA} />
-          <main className="gutter py-6 flex-1 w-full max-w-[1440px] mx-auto">
+          <main className="gutter py-6 flex-1 w-full max-w-[1440px] mx-auto min-h-[calc(100dvh-4rem)]">
             {somenteLeitura && (
               <div role="status" className="alert text-sm mb-5">
                 <Icone nome="lock" />
@@ -49,13 +49,15 @@ export default function LayoutApp() {
             )}
             <Outlet />
           </main>
-          <footer className="gutter py-4 text-xs opacity-60 flex flex-wrap gap-2 justify-between border-t border-base-300 bg-base-100">
+          <footer className="gutter py-4 text-xs texto-suave flex flex-wrap gap-2 justify-between border-t border-base-300 bg-base-100">
             <span>InovaHub v{__VERSAO__}</span>
             <span>InovaParq · Parque de Inovação da UNIVILLE · Joinville/SC</span>
           </footer>
         </div>
         <div className="drawer-side z-30">
-          <label htmlFor={ID_GAVETA} aria-label="Fechar menu" className="drawer-overlay" />
+          <label htmlFor={ID_GAVETA} className="drawer-overlay">
+            <span className="sr-only">Fechar menu</span>
+          </label>
           <MenuLateral aoNavegar={() => setGavetaAberta(false)} />
         </div>
       </div>

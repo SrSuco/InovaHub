@@ -14,9 +14,9 @@ export default function Modal({ aberto, aoFechar, titulo, children, acoes }) {
   return (
     <dialog ref={ref} className="modal modal-bottom sm:modal-middle" onClose={aoFechar} aria-labelledby="modal-titulo">
       <div className="modal-box">
-        <h3 id="modal-titulo" className="text-lg font-bold">
+        <h2 id="modal-titulo" className="text-lg font-bold">
           {titulo}
-        </h3>
+        </h2>
         {children}
         {acoes && <div className="modal-action">{acoes}</div>}
       </div>

@@ -16,6 +16,7 @@
 
 - [ ] `npm test` passa
 - [ ] `npm run build` sem erros
+- [ ] `npm run lighthouse` com nota 95 ou mais
 - [ ] Conferido no celular e no computador
 - [ ] Conferido nos modos claro e escuro
 - [ ] Permissões dos perfis conferidas

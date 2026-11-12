@@ -11,7 +11,8 @@
 </p>
 
 <p align="center">
-  <img alt="Versão" src="https://img.shields.io/badge/vers%C3%A3o-0.5.0-AB218E" />
+  <img alt="Versão" src="https://img.shields.io/badge/vers%C3%A3o-0.5.1-AB218E" />
+  <img alt="Lighthouse" src="https://img.shields.io/badge/Lighthouse-95%2B-0CCE6B" />
   <img alt="Etapa" src="https://img.shields.io/badge/etapa-CDI--2-00703C" />
   <img alt="React" src="https://img.shields.io/badge/React-18-61DAFB" />
   <img alt="Tailwind" src="https://img.shields.io/badge/Tailwind%20%2B%20DaisyUI-3%20%2F%204-38BDF8" />
@@ -25,17 +26,19 @@
 
 1. [Sobre o projeto](#sobre-o-projeto)
 2. [Telas implementadas](#telas-implementadas)
-3. [Tecnologias](#tecnologias)
-4. [Como rodar](#como-rodar)
-5. [Banco de dados e API](#banco-de-dados-e-api)
-6. [Modelagem UML](#modelagem-uml)
-7. [Cadastro de empresas](#cadastro-de-empresas)
-8. [Usuários de demonstração](#usuários-de-demonstração)
-9. [Estrutura de pastas](#estrutura-de-pastas)
-10. [Documentação](#documentação)
-11. [Roadmap](#roadmap)
-12. [Como contribuir](#como-contribuir)
-13. [Créditos](#créditos)
+3. [Responsividade e Lighthouse](#responsividade-e-lighthouse)
+4. [Tecnologias](#tecnologias)
+5. [Como rodar](#como-rodar)
+6. [Testes automáticos](#testes-automáticos)
+7. [Banco de dados e API](#banco-de-dados-e-api)
+8. [Modelagem UML](#modelagem-uml)
+9. [Cadastro de empresas](#cadastro-de-empresas)
+10. [Usuários de demonstração](#usuários-de-demonstração)
+11. [Estrutura de pastas](#estrutura-de-pastas)
+12. [Documentação](#documentação)
+13. [Roadmap](#roadmap)
+14. [Como contribuir](#como-contribuir)
+15. [Créditos](#créditos)
 
 ---
 
@@ -85,6 +88,29 @@ Legenda: ✅ pronta · 🟡 em andamento · ⚪ a fazer
 | ![Usuários](docs/telas/13-usuarios.png) Usuários | ![Permissões](docs/telas/14-permissoes.png) Permissões |
 | ![Erro 404](docs/telas/15-erro-404.png) Erro 404 | ![Empresas no celular](docs/telas/16-empresas-celular.png) Empresas no celular |
 
+## Responsividade e Lighthouse
+
+Todas as telas foram verificadas com o [Google Lighthouse](https://developer.chrome.com/docs/lighthouse) no celular e no computador, nos modos claro e escuro e com os perfis Administrador e Consulta. Nenhuma ficou abaixo de **95** em desempenho, acessibilidade, boas práticas e SEO:
+
+| Tela | Celular | Computador |
+|---|---|---|
+| Login | 98 · 100 · 100 · 100 | 100 · 100 · 100 · 100 |
+| Dashboard | 98 · 100 · 100 · 100 | 100 · 100 · 100 · 100 |
+| Empresas | 99 · 100 · 100 · 100 | 100 · 100 · 100 · 100 |
+| Nova empresa | 99 · 100 · 100 · 100 | 100 · 100 · 100 · 100 |
+| Ficha da empresa | 99 · 100 · 100 · 100 | 100 · 100 · 100 · 100 |
+| Usuários | 99 · 100 · 100 · 100 | 100 · 100 · 100 · 100 |
+| Novo usuário | 99 · 100 · 100 · 100 | 100 · 100 · 100 · 100 |
+| Permissões | 98 · 100 · 100 · 100 | 100 · 100 · 100 · 100 |
+| Relatórios | 99 · 100 · 100 · 100 | 100 · 100 · 100 · 100 |
+| Configurações | 99 · 100 · 100 · 100 | 100 · 100 · 100 · 100 |
+| Meu perfil | 99 · 100 · 100 · 100 | 100 · 100 · 100 · 100 |
+| Erro 404 | 99 · 100 · 100 · 100 | 100 · 100 · 100 · 100 |
+
+Ordem das notas: desempenho · acessibilidade · boas práticas · SEO (modo claro, versão de produção, cache vazio, medido na CI do GitHub; a nota de desempenho pode variar um ou dois pontos entre execuções). Além disso, nenhuma tela tem rolagem lateral em larguras de 320 px a 1440 px.
+
+Para repetir a verificação, rode `npm run build` e depois `npm run lighthouse`. O comando falha se alguma nota ficar abaixo de 95, e também roda na CI a cada push.
+
 ## Tecnologias
 
 | Item | Escolha |
@@ -93,11 +119,13 @@ Legenda: ✅ pronta · 🟡 em andamento · ⚪ a fazer
 | Build e servidor local | [Vite](https://vitejs.dev/) |
 | Rotas | [React Router 6](https://reactrouter.com/) |
 | Estilo e componentes | [Tailwind CSS](https://tailwindcss.com/) + [DaisyUI](https://daisyui.com/) |
+| Fontes | Inter e Plus Jakarta Sans via [Fontsource](https://fontsource.org/), servidas junto com o site |
 | Gráficos | [Chart.js](https://www.chartjs.org/) |
 | API | [Node.js 20](https://nodejs.org/) + [Express 4](https://expressjs.com/) |
 | Banco de dados | [MySQL 8](https://dev.mysql.com/doc/) (ou MariaDB 10.6+) com [mysql2](https://sidorares.github.io/node-mysql2/docs) |
 | Autenticação | Senhas com bcrypt e sessão com token JWT |
-| Testes | [Vitest](https://vitest.dev/) e [Supertest](https://github.com/ladjs/supertest) |
+| Testes | [Vitest](https://vitest.dev/), [Supertest](https://github.com/ladjs/supertest) e [Lighthouse](https://developer.chrome.com/docs/lighthouse) |
+| CI | [GitHub Actions](https://docs.github.com/actions) |
 
 ## Como rodar
 
@@ -138,7 +166,16 @@ Sem o arquivo `.env` (ou com `VITE_API_URL` vazio), as telas usam dados de exemp
 | `npm test` | Roda os testes automatizados |
 | `npm run build` | Gera a versão de produção em `dist/` |
 | `npm run preview` | Serve a versão de produção localmente |
+| `npm run lighthouse` | Roda o Lighthouse nas telas (depois do `npm run build`) |
 | `cd server && npm test` | Roda os testes da API contra o MySQL (banco `inovahub_teste`) |
+
+## Testes automáticos
+
+- **Antes de cada commit e de cada merge**, os hooks do Git rodam `npm test`. **Antes de cada push**, rodam também `npm run build`. Eles são ativados pelo `npm install` (pasta [`.githooks/`](.githooks)).
+- **No GitHub**, a CI ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)) roda os testes das telas, o build, os testes da API contra um MySQL temporário e o Lighthouse, em todo push e em todo pull request para `develop` e `main`.
+- Os testes de [`src/acessibilidade.test.js`](src/acessibilidade.test.js) conferem no código as regras de contraste, imagens e ARIA que o Lighthouse cobra.
+
+Detalhes no [guia de contribuição](CONTRIBUTING.md#testes-automáticos).
 
 ## Banco de dados e API
 
@@ -190,6 +227,8 @@ Os mesmos usuários existem no modo demonstração e na carga inicial do banco. 
 
 ```text
 inovahub/
+├── .githooks/             # Hooks do Git: testes antes de commit, merge e push
+├── .github/workflows/     # CI no GitHub Actions
 ├── database/
 │   ├── schema.sql         # Tabelas, chaves e índices do MySQL
 │   └── seed.sql           # Carga inicial (dados do protótipo)
@@ -198,7 +237,8 @@ inovahub/
 │   ├── banco-de-dados.md  # Diagrama ER e decisões de modelagem
 │   ├── uml/               # Diagramas UML (Mermaid e SVG)
 │   └── telas/             # Capturas das telas implementadas
-├── public/                # Arquivos servidos como estão (favicon)
+├── public/                # Arquivos servidos como estão (favicon, robots.txt)
+├── scripts/               # Lighthouse e instalação dos hooks
 ├── server/                # API Node.js + Express (veja server/README.md)
 │   ├── scripts/           # Criação do banco
 │   ├── src/               # Rotas, middlewares e repositórios SQL
@@ -246,12 +286,13 @@ inovahub/
 | `v0.3.0` | Dashboard | ✅ |
 | `v0.4.0` | Usuários, permissões, relatórios, configurações e perfil | ✅ |
 | `v0.5.0` | Diagramas UML, banco MySQL e API ligada às telas | ✅ |
+| `v0.5.1` | Lighthouse 95+ em todas as telas, testes antes de commit/merge e CI | ✅ |
 | `v0.6.0` | Interações, contatos e oportunidades usando as tabelas novas | ⚪ |
 | `v1.0.0` | Implantação no servidor do parque | ⚪ |
 
 ## Como contribuir
 
-Leia o [guia de contribuição](CONTRIBUTING.md). Em resumo: crie uma branch a partir da `develop`, faça commits pequenos no padrão `tipo: descrição`, rode `npm test`, `npm run build` e `cd server && npm test`, e abra um pull request.
+Leia o [guia de contribuição](CONTRIBUTING.md). Em resumo: crie uma branch a partir da `develop`, faça commits pequenos no padrão `tipo: descrição`, rode `npm test`, `npm run build`, `npm run lighthouse` e `cd server && npm test`, e abra um pull request.
 
 ## Créditos
 
