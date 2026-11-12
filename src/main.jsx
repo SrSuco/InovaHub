@@ -1,5 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import '@fontsource-variable/inter/wght.css';
+import '@fontsource-variable/plus-jakarta-sans/wght.css';
 import App from './App.jsx';
 import './index.css';
 
