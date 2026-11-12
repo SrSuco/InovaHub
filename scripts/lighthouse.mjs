@@ -74,6 +74,11 @@ try {
         tela.logado === false ? null : admin,
         TEMA,
       );
+      // A sessão fica no localStorage, mas o cache HTTP é limpo para medir
+      // cada tela como no primeiro acesso.
+      const cdp = await pagina.createCDPSession();
+      await cdp.send('Network.clearBrowserCache');
+      await cdp.detach();
       const { lhr, report } = await lighthouse(
         base + tela.rota,
         { output: 'html', logLevel: 'error', disableStorageReset: true, onlyCategories: CATEGORIAS },

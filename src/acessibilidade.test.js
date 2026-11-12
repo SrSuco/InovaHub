@@ -93,6 +93,10 @@ describe('página e arquivos públicos', () => {
     expect(html).toMatch(/<title>[^<]+<\/title>/);
   });
 
+  it('não carrega folhas de estilo de outros sites, que atrasam a primeira exibição', () => {
+    expect(html).not.toMatch(/<link[^>]+rel="stylesheet"[^>]+href="https?:/);
+  });
+
   it('não bloqueia o zoom no celular', () => {
     expect(html).not.toMatch(/user-scalable=no|maximum-scale=1/);
   });
